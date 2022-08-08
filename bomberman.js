@@ -55,6 +55,108 @@ function loop (){
     window.requestAnimationFrame(loop,tela);
     desenha();
     atualiza();
+
+    if(boneco.x === 200 && boneco.y === 200){
+        fase = 2;
+    }
+    if(fase === 1){
+        var mapa = [ 
+            [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
+            [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
+            [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
+            [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
+            [1,7,7,7,7,8,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
+            [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
+    ]
+    }
+    if(fase === 2){
+        var mapa = [ 
+            [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
+            [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
+            [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
+            [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
+            [1,7,7,7,7,8,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,7,7,0,0,7,0,0,0,1],
+            [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
+            [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,7,0,0,0,1],
+            [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,7,0,0,0,1],
+            [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
+    ]
+    }
+    
+    //Lógica para varrer o vetor da matriz do mapa.
+    for(var linhas in mapa){
+        for(var colunas in mapa[linhas]){
+            var bloco = mapa[linhas][colunas];
+            if(bloco === 1){
+                x = colunas*50;
+                y = linhas*50;
+                var parede1 = new Sprite(x,y,50,50,imagemCercaED);
+                paredes.push(parede1);
+            }
+            if(bloco === 2){
+                x = colunas*50;
+                y = linhas*50;
+                var parede2 = new Sprite(x,y,50,50,imagemCercaCB);
+                paredes.push(parede2);
+            }
+            if(bloco === 3){
+                x = colunas*50;
+                y = linhas*50;
+                var parede3 = new Sprite(x,y,50,50,imagemCercaCanto1);
+                paredes.push(parede3);
+            }
+            if(bloco === 4){
+                x = colunas*50;
+                y = linhas*50;
+                var parede4 = new Sprite(x,y,50,50,imagemCercaCanto2);
+                paredes.push(parede4);
+            }
+            if(bloco === 5){
+                x = colunas*50;
+                y = linhas*50;
+                var parede5 = new Sprite(x,y,50,50,imagemCercaCanto3);
+                paredes.push(parede5);
+            }
+            if(bloco === 6){
+                x = colunas*50;
+                y = linhas*50;
+                var parede6 = new Sprite(x,y,50,50,imagemCercaCanto4);
+                paredes.push(parede6);
+            }
+    
+            if(bloco === 7){
+                x = colunas*50
+                y = linhas*50
+                var parede7 = new Sprite(x, y, 50, 50, imagemPedra)
+                paredes.push(parede7);
+            }
+            if(bloco === 8){
+                x = colunas*50
+                y = linhas*50
+                var parede8 = new Sprite(x, y, 50, 50, imagemTronco)
+                paredesD.push(parede8);
+            }
+            
+            
+            
+        }  
+    }
+    
     
     
     console.log(arrayExplosaoD);
@@ -484,7 +586,9 @@ var bomba;
 var explosao1;
 var colidiu = false;
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 1;
+var fase = 2;
+
+
 
 //Definindo imagens.
 var imagemBoneco = new Image();
@@ -536,84 +640,7 @@ var arrayExplosaoE = [];
 var arrayExplosaoC =[];
 //Array em forma de matriz para desenharmos o mapa.
 
-if(fase === 1){
-    var mapa = [ 
-        [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
-        [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
-        [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
-        [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
-        [1,7,7,7,7,8,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
-        [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
-]
-}
-
-//Lógica para varrer o vetor da matriz do mapa.
-for(var linhas in mapa){
-    for(var colunas in mapa[linhas]){
-        var bloco = mapa[linhas][colunas];
-        if(bloco === 1){
-            x = colunas*50;
-            y = linhas*50;
-            var parede1 = new Sprite(x,y,50,50,imagemCercaED);
-            paredes.push(parede1);
-        }
-        if(bloco === 2){
-            x = colunas*50;
-            y = linhas*50;
-            var parede2 = new Sprite(x,y,50,50,imagemCercaCB);
-            paredes.push(parede2);
-        }
-        if(bloco === 3){
-            x = colunas*50;
-            y = linhas*50;
-            var parede3 = new Sprite(x,y,50,50,imagemCercaCanto1);
-            paredes.push(parede3);
-        }
-        if(bloco === 4){
-            x = colunas*50;
-            y = linhas*50;
-            var parede4 = new Sprite(x,y,50,50,imagemCercaCanto2);
-            paredes.push(parede4);
-        }
-        if(bloco === 5){
-            x = colunas*50;
-            y = linhas*50;
-            var parede5 = new Sprite(x,y,50,50,imagemCercaCanto3);
-            paredes.push(parede5);
-        }
-        if(bloco === 6){
-            x = colunas*50;
-            y = linhas*50;
-            var parede6 = new Sprite(x,y,50,50,imagemCercaCanto4);
-            paredes.push(parede6);
-        }
-
-        if(bloco === 7){
-            x = colunas*50
-            y = linhas*50
-            var parede7 = new Sprite(x, y, 50, 50, imagemPedra)
-            paredes.push(parede7);
-        }
-        if(bloco === 8){
-            x = colunas*50
-            y = linhas*50
-            var parede8 = new Sprite(x, y, 50, 50, imagemTronco)
-            paredesD.push(parede8);
-        }
-        
-        
-        
-    }  
-} 
+ 
 
 
 //Declarando objetos.

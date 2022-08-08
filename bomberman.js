@@ -1,5 +1,5 @@
 class Sprite {
-    constructor(x, y, largura, altura, imagem, tempoDeExplosao = 2000, imgx) {
+    constructor(x, y, largura, altura, imagem, tempoDeExplosao = 2000) {
         this.y = y;
         this.x = x;
         this.largura = largura;
@@ -9,7 +9,7 @@ class Sprite {
         this.imgY = 0;
         this.contadorAnim = 0;
         this.momentoCriacao = new Date();
-        this.tempoDeExplosao = 2000;
+        this.tempoDeExplosao = 500;
     }
 }
 
@@ -56,110 +56,23 @@ function loop (){
     desenha();
     atualiza();
 
-    if(boneco.x === 200 && boneco.y === 200){
-        fase = 2;
-    }
-    if(fase === 1){
-        var mapa = [ 
-            [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
-            [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
-            [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
-            [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
-            [1,7,7,7,7,8,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
-            [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
-    ]
-    }
-    if(fase === 2){
-        var mapa = [ 
-            [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
-            [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
-            [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
-            [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
-            [1,7,7,7,7,8,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,7,7,0,0,7,0,0,0,1],
-            [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
-            [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,7,0,0,0,1],
-            [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,7,0,0,0,1],
-            [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
-    ]
-    }
-    
-    //Lógica para varrer o vetor da matriz do mapa.
-    for(var linhas in mapa){
-        for(var colunas in mapa[linhas]){
-            var bloco = mapa[linhas][colunas];
-            if(bloco === 1){
-                x = colunas*50;
-                y = linhas*50;
-                var parede1 = new Sprite(x,y,50,50,imagemCercaED);
-                paredes.push(parede1);
-            }
-            if(bloco === 2){
-                x = colunas*50;
-                y = linhas*50;
-                var parede2 = new Sprite(x,y,50,50,imagemCercaCB);
-                paredes.push(parede2);
-            }
-            if(bloco === 3){
-                x = colunas*50;
-                y = linhas*50;
-                var parede3 = new Sprite(x,y,50,50,imagemCercaCanto1);
-                paredes.push(parede3);
-            }
-            if(bloco === 4){
-                x = colunas*50;
-                y = linhas*50;
-                var parede4 = new Sprite(x,y,50,50,imagemCercaCanto2);
-                paredes.push(parede4);
-            }
-            if(bloco === 5){
-                x = colunas*50;
-                y = linhas*50;
-                var parede5 = new Sprite(x,y,50,50,imagemCercaCanto3);
-                paredes.push(parede5);
-            }
-            if(bloco === 6){
-                x = colunas*50;
-                y = linhas*50;
-                var parede6 = new Sprite(x,y,50,50,imagemCercaCanto4);
-                paredes.push(parede6);
-            }
-    
-            if(bloco === 7){
-                x = colunas*50
-                y = linhas*50
-                var parede7 = new Sprite(x, y, 50, 50, imagemPedra)
-                paredes.push(parede7);
-            }
-            if(bloco === 8){
-                x = colunas*50
-                y = linhas*50
-                var parede8 = new Sprite(x, y, 50, 50, imagemTronco)
-                paredesD.push(parede8);
-            }
-            
-            
-            
-        }  
-    }
+
+    console.log( bombas.length,
+ sprites.length,
+ spritesInimigo.length,
+ paredes.length,
+ paredesD.length,
+ arrayExplosaoD.length,
+ arrayExplosaoB.length,
+ arrayExplosaoE.length,
+ arrayExplosaoC.length,
+ mapa.length)
+
+    mudarFase();
     
     
     
-    console.log(arrayExplosaoD);
+    //console.log(tempo);
 }
 
 function atualiza(){
@@ -192,8 +105,9 @@ function atualiza(){
         boneco.imgX = 0;
         boneco.contadorAnim = 0;
     }
-   
+
     //colisões de bloqueio
+    var arrayExplosoes = [...arrayExplosaoB, ...arrayExplosaoC, ...arrayExplosaoD, ...arrayExplosaoE];
     for(let i in paredes){
         let prd = paredes[i];
         colisao(boneco,prd);
@@ -205,25 +119,54 @@ function atualiza(){
         colisao(boneco, prd);
         colisao(inimigo,prd);
     }
+    for (let i in arrayExplosoes) {
+        let prd = arrayExplosoes[i];
+        //colisao2(boneco, prd);
+        colisao2(inimigo,prd);
+        if(colidiu){
+            inimigo.x = 900;
+        }
+    }
     for (let i in bombas) {
         let prd = bombas[i];
-        if(boneco.x > bomba.x+40 || boneco.x < bomba.x-30 || boneco.y > bomba.y+40 || boneco.y < bomba.y-30){
+        if(boneco.x > bomba.x+45 || boneco.x < bomba.x-25 || boneco.y > bomba.y+45 || boneco.y < bomba.y-25){
             colisao(boneco, prd);    
         }  
     }
+    for (let i in bombas) {
+        let prd = bombas[i];
+        colisao(inimigo, prd);    
+    }
+
 
     //Colisões diferentes
-    /*for(let i in arrayExplosaoD) {
-        let prd = arrayExplosaoD[i];
+    for(let i in arrayExplosoes) {
+        let prd = arrayExplosoes[i];
         colisao2(boneco, prd);
+        
     }
     if(colidiu){
-        alert("Morreu!");
+        if(tempo>500){
+            vidas --;    
+            tempo = 0;
+        }
         colidiu = false;
-    }*/
+    }
+
+    colisao2(inimigo,boneco);
+    tempo ++;
+    if(colidiu){
+        if(tempo>500){
+            vidas --;    
+            tempo = 0;
+        }
+        colidiu = false;
+    }
+
+
     for(let i2 in paredes){
         let prdD = paredes[i2]
-       for(let i in arrayExplosaoD) {
+        for(let i in arrayExplosaoD) {
             let prd = arrayExplosaoD[i]
             colisao2(prdD,prd);
             if(colidiu){
@@ -235,7 +178,7 @@ function atualiza(){
     }
     for(let i2 in paredes){
         let prdD = paredes[i2]
-       for(let i in arrayExplosaoB) {
+        for(let i in arrayExplosaoB) {
             let prd = arrayExplosaoB[i]
             colisao2(prdD,prd);
             if(colidiu){
@@ -247,7 +190,7 @@ function atualiza(){
     }
     for(let i2 in paredes){
         let prdD = paredes[i2]
-       for(let i in arrayExplosaoE) {
+        for(let i in arrayExplosaoE) {
             let prd = arrayExplosaoE[i]
             colisao2(prdD,prd);
             if(colidiu){
@@ -259,7 +202,7 @@ function atualiza(){
     }
     for(let i2 in paredes){
         let prdD = paredes[i2]
-       for(let i in arrayExplosaoC) {
+        for(let i in arrayExplosaoC) {
             let prd = arrayExplosaoC[i]
             colisao2(prdD,prd);
             if(colidiu){
@@ -269,58 +212,8 @@ function atualiza(){
             }
         } 
     }
-
-     for(let i2 in paredesD){
-        let prdD = paredesD[i2]
-       for(let i in arrayExplosaoC) {
-            let prd = arrayExplosaoC[i]
-            colisao2(prdD,prd);
-            if(colidiu){
-                colidiu = false;
-                arrayExplosaoC.splice(i,10);
-                paredesD.splice(i2,1);
-            }
-        } 
-    }
-    for(let i2 in paredesD){
-        let prdD = paredesD[i2]
-       for(let i in arrayExplosaoB) {
-            let prd = arrayExplosaoB[i]
-            colisao2(prdD,prd);
-            if(colidiu){
-                colidiu = false;
-                arrayExplosaoB.splice(i,10);
-                paredesD.splice(i2,1);
-            }
-        } 
-    }
-    for(let i2 in paredesD){
-        let prdD = paredesD[i2]
-       for(let i in arrayExplosaoE) {
-            let prd = arrayExplosaoE[i]
-            colisao2(prdD,prd);
-            if(colidiu){
-                colidiu = false;
-                arrayExplosaoE.splice(i,10);
-                paredesD.splice(i2,1);
-            }
-        } 
-    }
-    for(let i2 in paredesD){
-        let prdD = paredesD[i2]
-       for(let i in arrayExplosaoD) {
-            let prd = arrayExplosaoD[i]
-            colisao2(prdD,prd);
-            if(colidiu){
-                colidiu = false;
-                arrayExplosaoD.splice(i,10);
-                paredesD.splice(i2,1);
-            }
-        } 
-    }
-
-
-    //Movimentação do InimigO    
+    
+    //Movimentação do Inimigo    
 
     tempoInimigo += 1;
 
@@ -333,36 +226,54 @@ function atualiza(){
     }
 
    //Para a esquerda
-    if(yorX === 0){
+   if(yorX === 0){
 
-            inimigo.x -= velocidade;
+    inimigo.x -= 0.8;
+    inimigo.imgY = tamanhoImg + inimigo.altura * 2;
             //inimigo.y = 0;
             
 
-        
-    }
+
+        }
     //Para a direita
     if(yorX === 1){
-        
-            inimigo.x += velocidade;
+
+        inimigo.x += 0.8;
+        inimigo.imgY = tamanhoImg + inimigo.altura * 1;
             //inimigo.y = 0;
             
-    }
+        }
     //Para cima
     if(yorX === 2){
-        
-        inimigo.y -= velocidade;
+
+        inimigo.y -= 0.8;
+        inimigo.imgY = tamanhoImg + inimigo.altura * 0;
         //inimigo.x = 0;
-       
+
     }
 
     //Para baixo
     if(yorX === 3){
-        
-        inimigo.y += velocidade;
+
+        inimigo.y += 0.8;
+        inimigo.imgY = 0 + 0 * 2;
         //inimigo.x = 0;
-       
+
     }
+    if(yorX === 0 || yorX === 1 || yorX === 2 || yorX === 3){
+        inimigo.contadorAnim++;
+
+        if(inimigo.contadorAnim >= 60){
+            inimigo.contadorAnim = 0;
+        }
+
+        inimigo.imgX = Math.floor(inimigo.contadorAnim/15) * inimigo.largura;
+    } else{
+        inimigo.imgX = 0;
+        inimigo.contadorAnim = 0;
+    }
+
+    mostrarVida.textContent = ("Vidas: "+vidas);
 
 }
 
@@ -372,84 +283,159 @@ function desenha() {
     var y;
     ctx.clearRect(0,0,tela.width,tela.height); //Limpando a tela.
 
-    //Personagem
+    //Personagem e inimigos
     for(var i in sprites){
         var spr = sprites[i];
-        ctx.drawImage(
-            imagemBoneco,
-            spr.imgX,spr.imgY,spr.largura,spr.altura,
-            spr.x,spr.y,spr.largura,spr.altura
-        ) ;
-    }
-
-    //Inimigo
-    for(var i in spritesInimigo){
-        var spr = spritesInimigo[i];
-        ctx.drawImage(
-            imagemInimigo,
-            spr.imgX,spr.imgY,spr.largura,spr.altura,
-            spr.x,spr.y,spr.largura,spr.altura
-        );
-    }
-
-    //Desenhar as paredes
-   for(i = 0; i<paredes.length; i++){
-         var prd = paredes[i];
-        ctx.drawImage(prd.imagem,prd.x,prd.y,prd.largura,prd.altura);  
-    }
-    for(i = 0; i<paredesD.length; i++){
-         var prd = paredesD[i];
-        ctx.drawImage(prd.imagem,prd.x,prd.y,prd.largura,prd.altura);  
+        if(spr != boneco){
+            ctx.drawImage(
+                spr.imagem,
+                spr.imgX,spr.imgY,spr.largura,spr.altura,
+                spr.x,spr.y,spr.largura,spr.altura
+                ) ;
+        }
     }
     
+    if(tempo < 500 && tempo%20 === 0){
+       teste = !teste;
+    }  
+    if(tempo>500){
+        teste = true;
+    }
+    if(teste){
+       ctx.drawImage(
+        imagemBoneco,
+        boneco.imgX,boneco.imgY,boneco.largura,boneco.altura,
+        boneco.x,boneco.y,boneco.largura,boneco.altura
+        ) ; 
+    }
+    
+   
+
+    //Desenhar as paredes
+    for(i = 0; i<paredes.length; i++){
+       var prd = paredes[i];
+       ctx.drawImage(prd.imagem,prd.x,prd.y,prd.largura,prd.altura);  
+   }
+   for(i = 0; i<paredesD.length; i++){
+       var prd = paredesD[i];
+       ctx.drawImage(prd.imagem,prd.x,prd.y,prd.largura,prd.altura);  
+   }
 
 
-    //Explosão da bomba
-    for(var i = 0; i<bombas.length; i++){
+
+
+
+    //Desenhando a bomba e criando explosão da bomba.
+    for(var i = 0; i<bombas.length; i++){ //Varrendo o array de bombas
         var bmb = bombas[i];
         ctx.drawImage(bmb.imagem,bmb.x,bmb.y,bmb.largura,bmb.altura);
-        
-        if(((new Date())-bombas[i].momentoCriacao)>bombas[i].tempoDeDetonacao){
+        var fogoColidiuD = false;
+        var fogoColidiuB = false;
+        var fogoColidiuE = false;
+        var fogoColidiuC = false;
+        if(((new Date())-bombas[i].momentoCriacao)>bombas[i].tempoDeDetonacao){ 
             for(var i=0; i<50*3 ; i=i+50){
                 explosao = new Sprite(bmb.x+i,bmb.y,bmb.largura,bmb.altura,imagemExplosao);
-                arrayExplosaoD.push(explosao);
+                if(!fogoColidiuD){
+                    arrayExplosaoD.push(explosao);
+                }
+                for(let i2 in paredesD){
+                    let prdD = paredesD[i2]
+                    for(let i in arrayExplosaoD) {
+                        let prd = arrayExplosaoD[i]
+                        colisao2(prdD,prd);
+                        if(colidiu){
+                            fogoColidiuD = true;
+                            colidiu = false;
+                            arrayExplosaoD.splice(i,10);
+                            paredesD.splice(i2,1);
+                        }   
+                    } 
+                }
             }    
             for(var i=50; i<50*3 ; i=i+50){
                 explosao = new Sprite(bmb.x,bmb.y+i,bmb.largura,bmb.altura,imagemExplosao);
-                arrayExplosaoB.push(explosao);
+                if(!fogoColidiuB){
+                    arrayExplosaoB.push(explosao);
+                }
+                for(let i2 in paredesD){
+                    let prdD = paredesD[i2]
+                    for(let i in arrayExplosaoB) {
+                        let prd = arrayExplosaoB[i]
+                        colisao2(prdD,prd);
+                        if(colidiu){
+                            fogoColidiuB = true;
+                            colidiu = false;
+                            arrayExplosaoB.splice(i,10);
+                            paredesD.splice(i2,1);
+                        }   
+                    } 
+                }
+
             }
+            
             for(var i=50; i<50*3 ; i=i+50){
                 explosao = new Sprite(bmb.x-i,bmb.y,bmb.largura,bmb.altura,imagemExplosao);
-                arrayExplosaoE.push(explosao);
+                if(!fogoColidiuE){
+                    arrayExplosaoE.push(explosao);
+                }
+                for(let i2 in paredesD){
+                    let prdD = paredesD[i2]
+                    for(let i in arrayExplosaoE) {
+                        let prd = arrayExplosaoE[i]
+                        colisao2(prdD,prd);
+                        if(colidiu){
+                            fogoColidiuE = true;
+                            colidiu = false;
+                            arrayExplosaoE.splice(i,10);
+                            paredesD.splice(i2,1);
+                        }   
+                    } 
+                }
             }     
             for(var i=50; i<50*3 ; i=i+50){
                 explosao = new Sprite(bmb.x,bmb.y-i,bmb.largura,bmb.altura,imagemExplosao);
-                arrayExplosaoC.push(explosao);
+                if(!fogoColidiuC){
+                    arrayExplosaoC.push(explosao);
+                }  
+                for(let i2 in paredesD){
+                    let prdD = paredesD[i2]
+                    for(let i in arrayExplosaoC) {
+                        let prd = arrayExplosaoC[i]
+                        colisao2(prdD,prd);
+                        if(colidiu){
+                            fogoColidiuC = true;
+                            colidiu = false;
+                            arrayExplosaoC.splice(i,10);
+                            paredesD.splice(i2,1);
+                        }   
+                    } 
+                }
             }
             bombas.shift();
-            }    
+        }    
     }  
     for(i = 0; i<arrayExplosaoB.length; i++){
-            var exp = arrayExplosaoB[i];
-            ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura); 
-            if(((new Date())-arrayExplosaoB[i].momentoCriacao)>arrayExplosaoB[i].tempoDeExplosao){
-                arrayExplosaoB.shift();
+        var exp = arrayExplosaoB[i];
+        ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura); 
+        if(((new Date())-arrayExplosaoB[i].momentoCriacao)>arrayExplosaoB[i].tempoDeExplosao){
+            arrayExplosaoB.shift();
         }
-        }
+    }
     for(i = 0; i<arrayExplosaoE.length; i++){
-            var exp = arrayExplosaoE[i];
-            ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura);
-            if(((new Date())-arrayExplosaoE[i].momentoCriacao)>arrayExplosaoE[i].tempoDeExplosao){
-                arrayExplosaoE.shift();
+        var exp = arrayExplosaoE[i];
+        ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura);
+        if(((new Date())-arrayExplosaoE[i].momentoCriacao)>arrayExplosaoE[i].tempoDeExplosao){
+            arrayExplosaoE.shift();
         } 
-        }
+    }
     for(i = 0; i<arrayExplosaoC.length; i++){
-            var exp = arrayExplosaoC[i];
-            ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura); 
-            if(((new Date())-arrayExplosaoC[i].momentoCriacao)>arrayExplosaoC[i].tempoDeExplosao){
-                arrayExplosaoC.shift();
+        var exp = arrayExplosaoC[i];
+        ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura); 
+        if(((new Date())-arrayExplosaoC[i].momentoCriacao)>arrayExplosaoC[i].tempoDeExplosao){
+            arrayExplosaoC.shift();
         }
-        }        
+    }        
     for(i = 0; i<arrayExplosaoD.length; i++){
         var exp = arrayExplosaoD[i];
         ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura);
@@ -518,31 +504,146 @@ function colisao2(r1,r2){
 
 }
 
+
+function mudarFase(){
+    
+    if(fase === 1){
+        mapa = [ 
+        [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
+        [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
+        [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
+        [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
+        [1,7,0,0,7,8,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
+        [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
+        ]
+    }
+    
+    if(fase === 2){
+       mapa = [ 
+        [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
+        [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
+        [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
+        [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
+        [1,7,0,0,7,8,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
+        [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+        [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1,1,8,1],
+        [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
+        ]
+    }
+
+    //Lógica para varrer o vetor da matriz do mapa.
+
+    paredes = [];
+    paredesD = [];
+
+
+
+for(var linhas in mapa){
+    for(var colunas in mapa[linhas]){
+        var bloco = mapa[linhas][colunas];
+        if(bloco === 1){
+            x = colunas*50;
+            y = linhas*50;
+            var parede1 = new Sprite(x,y,50,50,imagemCercaED);
+            paredes.push(parede1);
+        }
+        if(bloco === 2){
+            x = colunas*50;
+            y = linhas*50;
+            var parede2 = new Sprite(x,y,50,50,imagemCercaCB);
+            paredes.push(parede2);
+        }
+        if(bloco === 3){
+            x = colunas*50;
+            y = linhas*50;
+            var parede3 = new Sprite(x,y,50,50,imagemCercaCanto1);
+            paredes.push(parede3);
+        }
+        if(bloco === 4){
+            x = colunas*50;
+            y = linhas*50;
+            var parede4 = new Sprite(x,y,50,50,imagemCercaCanto2);
+            paredes.push(parede4);
+        }
+        if(bloco === 5){
+            x = colunas*50;
+            y = linhas*50;
+            var parede5 = new Sprite(x,y,50,50,imagemCercaCanto3);
+            paredes.push(parede5);
+        }
+        if(bloco === 6){
+            x = colunas*50;
+            y = linhas*50;
+            var parede6 = new Sprite(x,y,50,50,imagemCercaCanto4);
+            paredes.push(parede6);
+        }
+
+        if(bloco === 7){
+            x = colunas*50
+            y = linhas*50
+            var parede7 = new Sprite(x, y, 50, 50, imagemPedra)
+            paredes.push(parede7);
+        }
+        if(bloco === 8){
+            x = colunas*50
+            y = linhas*50
+            var parede8 = new Sprite(x, y, 50, 50, imagemTronco)
+            paredesD.push(parede8);
+        }
+        
+        
+        
+    }  
+} 
+
+           
+}
 //Entradas
 window.addEventListener("keydown",function (e){
     var key = e.keyCode;
     switch(key){
         case LEFT:
-            mvLeft = true;
-            break;
+        mvLeft = true;
+        break;
         case UP:
-            mvUp = true;
-            break;
+        mvUp = true;
+        break;
         case RIGHT:
-            mvRight = true;
-            break;
+        mvRight = true;
+        break;
         case DOWN:
-            mvDown = true;
-            break;
+        mvDown = true;
+        break;
         case SPACE:
-            if(bombas.length<2){
+        if(bombas.length<2){
             xBomba = Math.floor(boneco.centroX()/50)*50; 
             yBomba = Math.floor(boneco.centroY()/50)*50;
             bomba = new Bomba(xBomba,yBomba,50,50,imagemBomba);
             bombas.push(bomba);
             
             break; 
-            }
+            
+        }
+        case EX:
+            fase = 2;
+            break;
+        
     }   
 }, false)
 
@@ -550,18 +651,18 @@ window.addEventListener("keyup",function (e){
     var key = e.keyCode;
     switch (key){
         case LEFT:
-            mvLeft = false;
-            break;
+        mvLeft = false;
+        break;
         case UP:
-            mvUp = false;
-            break;
+        mvUp = false;
+        break;
         case RIGHT:
-            mvRight = false;
-            break;
+        mvRight = false;
+        break;
         case DOWN:
-            mvDown = false;
-            break; 
-                
+        mvDown = false;
+        break; 
+
     }
 
 }, false)
@@ -571,14 +672,17 @@ var tela = document.querySelector("canvas");
 var ctx = tela.getContext("2d");
 
 //teclas
-var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32;
+var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32 , EX = 88;
 
 //movimento
 var mvLeft = mvUp = mvRight = mvDown = bomb = false;
-var velocidade = 2;
+var velocidade = 1;
 var yorX;
 var x;
 var y;
+
+var teste = true;
+var tempo = 1000;
 var tamanhoImg = 30;
 var xBomba = undefined;
 var yBomba= undefined;  
@@ -586,13 +690,15 @@ var bomba;
 var explosao1;
 var colidiu = false;
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 2;
-
+var fase = 1;
+var mostrarVida = document.getElementById("vida");
+var vidas = 5;
 
 
 //Definindo imagens.
 var imagemBoneco = new Image();
 imagemBoneco.src ="spriteporco/porcosheet.png";
+
 
 var imagemCercaCB = new Image();
 imagemCercaCB.src ="img/pngcercaCB.png";
@@ -638,9 +744,14 @@ var arrayExplosaoD = [];
 var arrayExplosaoB = [];
 var arrayExplosaoE = [];
 var arrayExplosaoC =[];
+var mapa = [];
 //Array em forma de matriz para desenharmos o mapa.
 
- 
+
+     
+
+
+
 
 
 //Declarando objetos.

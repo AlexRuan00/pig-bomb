@@ -4,6 +4,7 @@ body {
 	background-size:100%;
 	background-repeat:no-repeat;
 	background-color:#000;
+	/* overflow: hidden; ESCONDER BARRAS DE LADO E DE BAIXO */
 }
 
 .fundo {
@@ -23,6 +24,7 @@ body {
 	width: 750px;
 	height: 750px;
 	background-image: url(https://i.imgur.com/N0Y3SFj.jpg);
+	background-image: url(https://w7.pngwing.com/pngs/644/969/png-transparent-texture-mapping-opengameart-org-gimp-tile-paper-sand-texture-brown-isometric-graphics-in-video-games-and-pixel-art.png);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;

@@ -1,3 +1,4 @@
+//Classe construtor para o personagem principal
 class Sprite {
     constructor(x, y, largura, altura, imagem, tempoDeExplosao = 2000) {
         this.y = y;
@@ -13,6 +14,7 @@ class Sprite {
     }
 }
 
+//Funções para calcular aonde as paredes ficam no mapa, não ficando aleatóriamente jogadas
 Sprite.prototype.metadeLargura = function(){
     return this.largura/2
 }
@@ -26,6 +28,7 @@ Sprite.prototype.centroY = function(){
     return this.y + this.metadeAltura();
 }
 
+//Classe construtor para a bomba
 class Bomba {
     constructor(x, y, largura, altura, imagem, tempoDeDetonacao = 3000) {
         this.y = y;
@@ -50,34 +53,40 @@ Bomba.prototype.centroY = function(){
     return this.y + this.metadeAltura();
 }  
 
-//Funções
+//FUNÇÕES
+//Para chamar todas as funções
 function loop (){ 
     window.requestAnimationFrame(loop,tela);
-    desenha();
-    atualiza();
-    mudarFase();
+    desenha();                          
+    atualiza();                         
+    mudarFase();                //Função para mudar de fase
     
     console.log(tempo);
 }
 
 function atualiza(){
+    //Condições para movimentar o personagem principal
+    //Esquerda
     if(mvLeft && !mvRight && !mvDown && !mvUp){
-        boneco.x -= velocidade;
-        boneco.imgY = tamanhoImg + boneco.altura * 2;
+        boneco.x -= velocidade;                         //Velocidade contínuo
+        boneco.imgY = tamanhoImg + boneco.altura * 2;   //Animação
     }
+    //Direita
     if(mvRight && !mvLeft && !mvDown && !mvUp){
         boneco.x += velocidade;
         boneco.imgY = tamanhoImg + boneco.altura * 1;
     }
+    //Cima
     if(mvUp && !mvDown){
         boneco.y -= velocidade;
         boneco.imgY = tamanhoImg + boneco.altura * 0;
     }
+    //Baixo
     if(mvDown && !mvUp){
         boneco.y += velocidade;
         boneco.imgY = 0 + 0 * 2;
     } 
-
+    //Condição para mudar a imagem enquanto anda, fazendo a animação.
     if(mvLeft || mvRight || mvUp || mvDown){
         boneco.contadorAnim++;
 
@@ -86,24 +95,31 @@ function atualiza(){
         }
 
         boneco.imgX = Math.floor(boneco.contadorAnim/15) * boneco.largura;
-    } else{
+    } 
+
+    //Caso fique parado
+    else{
         boneco.imgX = 0;
         boneco.contadorAnim = 0;
     }
 
-    //colisões de bloqueio
+
+    //COLISÕES
+
     var arrayExplosoes = [...arrayExplosaoB, ...arrayExplosaoC, ...arrayExplosaoD, ...arrayExplosaoE];
+    //Colisões das paredes
     for(let i in paredes){
         let prd = paredes[i];
         colisao(boneco,prd);
         colisao(inimigo,prd);
     }
-
+    //Colisões das paredes destrutivas(Cacto, tronco...)
     for (let i in paredesD) {
         let prd = paredesD[i];
         colisao(boneco, prd);
         colisao(inimigo,prd);
     }
+    //Colisões dos inimigos
     for(let i2 in inimigos){
         let ini = inimigos[i2]
         for(let i in arrayExplosoes) {
@@ -115,12 +131,14 @@ function atualiza(){
             }
         } 
     }
+    //Colisão da bomba
     for (let i in bombas) {
         let prd = bombas[i];
         if(boneco.x > bomba.x+45 || boneco.x < bomba.x-25 || boneco.y > bomba.y+45 || boneco.y < bomba.y-25){
             colisao(boneco, prd);    
         }  
     }
+    //Colisão da bomba com o inimigo
     for (let i in bombas) {
         let prd = bombas[i];
         colisao(inimigo, prd);    
@@ -133,6 +151,7 @@ function atualiza(){
         colisao2(boneco, prd);
         
     }
+    //Condição  para o contador de vida do personagem principal
     if(colidiu){
         if(tempo>500){
             vidas --;    
@@ -141,6 +160,7 @@ function atualiza(){
         colidiu = false;
     }
 
+    
     for (let i in inimigos) {
         let ini = inimigos[i];
       
@@ -155,7 +175,7 @@ function atualiza(){
     }
     tempo ++;
    
-
+    //Colisão da explosão da bomba na parede(Direção 1)
     for(let i2 in paredes){
         let prdD = paredes[i2]
         for(let i in arrayExplosaoD) {
@@ -168,6 +188,7 @@ function atualiza(){
             }
         } 
     }
+    //Colisão da explosão da bomba na parede(Direção 2)
     for(let i2 in paredes){
         let prdD = paredes[i2]
         for(let i in arrayExplosaoB) {
@@ -180,6 +201,7 @@ function atualiza(){
             }
         } 
     }
+    //Colisão da explosão da bomba na parede(Direção 3)
     for(let i2 in paredes){
         let prdD = paredes[i2]
         for(let i in arrayExplosaoE) {
@@ -192,6 +214,7 @@ function atualiza(){
             }
         } 
     }
+    //Colisão da explosão da bomba na parede(Direção 4)
     for(let i2 in paredes){
         let prdD = paredes[i2]
         for(let i in arrayExplosaoC) {
@@ -230,7 +253,7 @@ function atualiza(){
         powerUpOnOff = false;
     }*/
     
-    //Movimentação do Inimigo    
+    //MOVIMENTAÇÃO DO INIMIGOS  
 
     tempoInimigo += 1;
 
@@ -245,30 +268,27 @@ function atualiza(){
    if(yorX === 0){
         inimigo.x -= 0.8;
         inimigo.imgY = tamanhoImg + inimigo.altura * 2;
-        //inimigo.y = 0;
     }
 
     //Para a direita
     if(yorX === 1){
         inimigo.x += 0.8;
-        inimigo.imgY = tamanhoImg + inimigo.altura * 1;
-        //inimigo.y = 0;
-            
+        inimigo.imgY = tamanhoImg + inimigo.altura * 1;           
     }
 
     //Para cima
     if(yorX === 2){
         inimigo.y -= 0.8;
         inimigo.imgY = tamanhoImg + inimigo.altura * 0;
-        //inimigo.x = 0;
     }
 
     //Para baixo
     if(yorX === 3){
         inimigo.y += 0.8;
         inimigo.imgY = 0 + 0 * 2;
-        //inimigo.x = 0;
     }
+
+    //Condição para a animação do personagem
     if(yorX === 0 || yorX === 1 || yorX === 2 || yorX === 3){
         inimigo.contadorAnim++;
 
@@ -282,12 +302,14 @@ function atualiza(){
         inimigo.contadorAnim = 0;
         }
 
-    mostrarVida.textContent = ("Vidas: "+vidas);
+    mostrarVida.textContent = ("Vidas: "+vidas);    //Mostrar vida do personagem principal
 
 }
 
 //Função para desenhar tudo na tela.
 function desenha() {
+
+    //condições para escolher a imagem de fundo de cada fase
     if(fase === 1){
         document.getElementById("jogo").style.backgroundImage = "url('https://i.imgur.com/N0Y3SFj.jpg')";   
     }
@@ -310,12 +332,12 @@ function desenha() {
     }
     
     if(tempo < 500 && tempo%20 === 0){
-       teste = !teste;
+       podeMorrer = !podeMorrer;
     }  
     if(tempo>500){
-        teste = true;
+        podeMorrer = true;
     }
-    if(teste){
+    if(podeMorrer){
        ctx.drawImage(
         imagemBoneco,
         boneco.imgX,boneco.imgY,boneco.largura,boneco.altura,
@@ -330,6 +352,7 @@ function desenha() {
        var prd = paredes[i];
        ctx.drawImage(prd.imagem,prd.x,prd.y,prd.largura,prd.altura);  
    }
+   //Desenhar as paredes destrutivas
    for(i = 0; i<paredesD.length; i++){
        var prd = paredesD[i];
        ctx.drawImage(prd.imagem,prd.x,prd.y,prd.largura,prd.altura);  
@@ -428,6 +451,8 @@ function desenha() {
             bombas.shift();
         }    
     }  
+
+    //Desenho de cada direção da explosão da bomba
     for(i = 0; i<arrayExplosaoB.length; i++){
         var exp = arrayExplosaoB[i];
         ctx.drawImage(exp.imagem,exp.x,exp.y,exp.largura,exp.altura); 
@@ -473,6 +498,7 @@ function desenha() {
     
 }
 
+//Função para usar como calculo das colisões
 function colisao(r1,r2){
     var catX = r1.centroX() - r2.centroX();
     var catY = r1.centroY() - r2.centroY();
@@ -540,6 +566,7 @@ window.addEventListener("keydown",function (e){
             break;
         case UP:
             mvUp = true;
+            //Caso o personagem clique para cima estando dentro da porta, é passado para a proxima fase.
             colisao2(boneco,porta)
             if(colidiu && inimigos.length === 0){
                 colidiu = false;
@@ -558,7 +585,9 @@ window.addEventListener("keydown",function (e){
         case DOWN:
             mvDown = true;
             break;
+
         case SPACE:
+            //para colocar a bomba na tela
             if(bombas.length<2){
                 xBomba = Math.floor(boneco.centroX()/50)*50; 
                 yBomba = Math.floor(boneco.centroY()/50)*50;
@@ -570,6 +599,7 @@ window.addEventListener("keydown",function (e){
     }   
 }, false)
 
+//Caso nenhum botão fique apertado, o personagem principal para de se movimentar continuamente.
 window.addEventListener("keyup",function (e){
     var key = e.keyCode;
     switch (key){
@@ -590,8 +620,10 @@ window.addEventListener("keyup",function (e){
 
 }, false)
 
+//Função para mudar de fase
 function mudarFase(){
-    //Array em forma de matriz para desenharmos o mapa.
+    //Array em forma de matriz para desenharmos o mapa, cada numero sendo um bloco diferente
+    //Fase 1: Fazenda
     if(fase === 1){
         mapa = [ 
         [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
@@ -612,11 +644,8 @@ function mudarFase(){
         ]
     }
     
+    //Fase 2: Deserto
     if(fase === 2){
-
-
-
-
      mapa = [ 
      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
      [1,1,1,0,0,8,0,0,0,0,0,0,1,1,1],
@@ -636,20 +665,22 @@ function mudarFase(){
      ]
  }
 
-    //Lógica para varrer o vetor da matriz do mapa.
-
-
-
-
+    //Lógica para criar as paredes do mapa
     if(!rodou){
         for(var linhas in mapa){
             for(var colunas in mapa[linhas]){
                 var bloco = mapa[linhas][colunas];
+
+                /*Cada condição é uma parede com imagem diferente, mantendo dois tipos: 
+                - paredes destrutivas(paredesD) 
+                - paredes fixas(paredes)*/
+
+                //Paredes fixas
                 if(bloco === 1 && fase === 1){
                     x = colunas*50;
                     y = linhas*50;
                     var parede1 = new Sprite(x,y,50,50,imagemCercaED);
-                    paredes.push(parede1);
+                    paredes.push(parede1);          //Fazendo push em paredes, para paredes fixas
                 }
                 if(bloco === 1 && fase === 2){
                     x = colunas*50;
@@ -694,11 +725,13 @@ function mudarFase(){
                     var parede7 = new Sprite(x, y, 50, 50, imagemPedra)
                     paredes.push(parede7);
                 }
+
+                //Paredes Destrutivas
                 if(bloco === 8 && fase === 1){
                     x = colunas*50
                     y = linhas*50
                     var parede8 = new Sprite(x, y, 50, 50, imagemTronco)
-                    paredesD.push(parede8);
+                    paredesD.push(parede8);             //Fazendo push em paredesD, para paredes destrutivas
                 }
                 if(bloco === 8 && fase === 2){
                     x = colunas*50
@@ -714,7 +747,7 @@ function mudarFase(){
 
 
             } 
-            rodou = true; 
+            rodou = true;     //Para não ficar recriando sem parar, só recriando quando for false. 
         } 
 
     }
@@ -737,26 +770,29 @@ var yorX;
 var x;
 var y;
 
-var rodou = false;
-var teste = true;
-var tempo = 1000;
-var tempoE = 1000;
-var tamanhoImg = 30;
-var xBomba = undefined;
-var yBomba= undefined;  
+var rodou = false;              //Variavel para sempre desenhar as paredes quando for chamada
+var podeMorrer = true;          //Quando atingido, o personagem fica piscando, ficando tambem imortal
+var tempo = 1000;               //Tempo do personagem, quando ele é atingido, ele recebe valo inferior a 1000
+var tempoE = 1000;              //Tempo da explosão da bomba
+var tamanhoImg = 30;            //Tamanho da imagem do personagem
+var xBomba = undefined;         //posição da bomba horizontalmente
+var yBomba= undefined;          //posição da bomba verticalmente
 var bomba;
-var powerUpOnOff = true;
-var tE = 3;
-var colidiu = false;
+var powerUpOnOff = true;        
+var tE = 3;                     //Tamanho da explosão, inicialmente 3 blocos 
+var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 1;
-var mostrarVida = document.getElementById("vida");
-var vidas = 5;
+var fase = 1;                   //Fase inicial
+var mostrarVida = document.getElementById("vida");          //Contator de vida
+var vidas = 3;                  //Quantidade de vidas inciais
 
-//Definindo imagens.
+//DEFININDO IMAGENS.
+
+//imagem do personagem principal(porco)
 var imagemBoneco = new Image();
 imagemBoneco.src ="spriteporco/porcosheet.png";
 
+//imagem paredes fase 1(cercado)
 var imagemCercaCB = new Image();
 imagemCercaCB.src ="img/pngcercaCB.png";
 
@@ -775,61 +811,69 @@ imagemCercaCanto3.src ="img/pngcercaCanto3.png";
 var imagemCercaCanto4 = new Image();
 imagemCercaCanto4.src ="img/pngcercaCanto4.png";
 
+//imagem parede fase 1
 var imagemPedra = new Image();
 imagemPedra.src = "img/pngrocha.png";
 
 var imagemTronco = new Image();
 imagemTronco.src = "img/pngmadera.png";
 
+//imagem parede fase 2
 var imagemEgito = new Image();
 imagemEgito.src = "imgfase2/Egito.png";
 
 var imagemEgitoD = new Image();
 imagemEgitoD.src = "imgfase2/EgitoD.png";
 
+//imagem da Bomba
 var imagemBomba = new Image();
 imagemBomba.src ="img/pngbomba.png";
 
+//imagem da explosão
 var imagemExplosao = new Image();
 imagemExplosao.src = "img/pngexplosao.png";
 
+//imagem do powerUp
 var pueImagem = new Image();
 pueImagem.src = "img/powerupexplosao.png";
 
+//imagem do inimigo fase 1(lobo)
 var imagemInimigo = new Image();
 imagemInimigo.src ="spriteporco/lobinhosheet.png";
 
+//imagem da porta, para passar de fase
 var imagemPorta = new Image();
 imagemPorta.src ="https://imgur.com/Ou9w4gH.png";
 
 //Arrays
-var powerUpExplosao = [];
-var bombas = [];
-var sprites = [];
-var spritesInimigo = [];
-var paredes = [];
-var paredesD = [];
-var arrayExplosaoD = [];
-var arrayExplosaoB = [];
-var arrayExplosaoE = [];
-var arrayExplosaoC =[];
-var mapa = [];
-var inimigos = [];
+var powerUpExplosao = [];   //qunatidade da explosão após o powerUp
+var bombas = [];            //Quantidade de bomba
+var sprites = [];           //para os personagens
+var spritesInimigo = [];    //para os inimigos
+var paredes = [];           //para as paredes fixas
+var paredesD = [];          //para as paredes destrutivas
+var arrayExplosaoD = [];    //explosao para a direita
+var arrayExplosaoB = [];    //explosao para a baixo
+var arrayExplosaoE = [];    //explosao para a esquerda
+var arrayExplosaoC =[];     //explosao para cima
+var mapa = [];              //mapas para a quantidade de fase
+var inimigos = [];          //para os inimigos
 
 
 //Declarando objetos.
 var boneco = new Sprite(100,100,30,30,imagemBoneco);
 sprites.push(boneco);
 
+///variavel do powerUp, tendo a posição inicial dela
 var powerUpE = new Sprite(500,500,30,30,pueImagem);
 powerUpExplosao.push(powerUpE);
 
-//Comentário
+//variavel do inimigo, tendo a posição inicial dela
 var inimigo = new Sprite(200,200,30,30,imagemInimigo);
 inimigos.push(inimigo);
 
+//variavel da porta, tendo a posição inicial dela
 var porta = new Sprite(400,400,50,50,imagemPorta);
 sprites.push(porta);
 
-//Chamando a função loop pela primeira vez para que ela se repita sozinha logo em seguida. 
-loop();
+loop(); //Chamando a função loop pela primeira vez para que ela se repita sozinha logo em seguida. 

@@ -52,6 +52,28 @@ Bomba.prototype.centroX = function(){
 Bomba.prototype.centroY = function(){
     return this.y + this.metadeAltura();
 }  
+class PlusBomba {
+    constructor(x,y,largura,altura,imagem){
+        this.x = x;
+        this.y = y;
+        this.largura = largura;
+        this.altura = altura;
+        this.imagem = imagem;
+    }
+}
+
+PlusBomba.prototype.metadeLargura = function(){
+    return this.largura/2
+}
+PlusBomba.prototype.metadeAltura = function(){
+    return this.altura/2
+}
+PlusBomba.prototype.centroX = function(){
+    return this.x + this.metadeLargura();
+}
+PlusBomba.prototype.centroY = function(){
+    return this.y + this.metadeAltura();
+}
 
 //FUNÇÕES
 //Para chamar todas as funções
@@ -60,7 +82,7 @@ function loop (){
     desenha();                          
     atualiza();                         
     mudarFase();                //Função para mudar de fase
-    //console.log();
+    console.log(inimigos.length);
 }
 
 function atualiza(){
@@ -193,25 +215,25 @@ function atualiza(){
         let pwu = powerUpExplosao[i];
         colisao2(boneco,pwu);
         if(colidiu){
-            if(tempoE>500){
-                tE ++;    
-                tempoE = 0;
-            }
+            tE ++;    
+            pwUR = undefined;
             colidiu = false;
             powerUpExplosao.splice(i,1);
             powerUpOnOff = false;
         }
-    }    
-    /*colisao2(boneco,powerUpE);
-    if(colidiu){
-        if(tempoE>500){
-            tE ++;    
-            tempoE = 0;
+    }
+
+    for(let i in powerUpBombas){
+        let pwB = powerUpBombas[i];
+        colisao2(boneco,pwB);
+        if(colidiu){
+            numeroDeBombas ++;    
+            pwUR = undefined;
+            colidiu = false;
+            powerUpBombas.splice(i,1);
+            powerUpOnOff = false;
         }
-        colidiu = false;
-        powerUpExplosao.pop();
-        powerUpOnOff = false;
-    }*/
+    }
     
     //MOVIMENTAÇÃO DO INIMIGOS  
 
@@ -222,6 +244,7 @@ function atualiza(){
         yorX1 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX2 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX3 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX4 =  Math.floor(Math.random() * 4);
     }
     if(inimigos.length > 0){    
         direcaoIni(inimigo,yorX);
@@ -231,7 +254,11 @@ function atualiza(){
         direcaoIni(inimigo3,yorX2);
 
         direcaoIni(inimigo4,yorX3);
+
+        direcaoIni(inimigo5,yorX4);
     }
+
+    
     mostrarVida.textContent = ("Vidas: "+vidas);    //Mostrar vida do personagem principal
 }
 
@@ -363,19 +390,21 @@ function desenha() {
     }   
     
     //Desenhando os powerups
+    
     for(var i in powerUpExplosao){
-        if(powerUpOnOff){
-            var pue = powerUpExplosao[i];
-            ctx.drawImage(pue.imagem,pue.x,pue.y,pue.largura,pue.altura)
-        }
+        var pue = powerUpExplosao[i];
+        ctx.drawImage(pue.imagem,pue.x,pue.y,pue.largura,pue.altura);
+     }
+
+    for(var i in powerUpBombas){
+        var pub = powerUpBombas[i];
+        ctx.drawImage(pub.imagem,pub.x,pub.y,pub.largura,pub.altura);
     }
 
     //Desenhando a porta
     if(inimigos.length === 0 && paredesD.length === 0){
         ctx.drawImage(porta.imagem,porta.x,porta.y,porta.largura,porta.altura);
     }
-   
-    
 }
 
 //Função para usar como calculo das colisões
@@ -459,6 +488,17 @@ function detectarColisoes(ob1,ob2){
                     fogoColidiuC = true;
                 }
                 if(ob1 === paredesD){
+                    pwUR =  Math.floor(Math.random() * 20);
+                    if(pwUR == 0 || pwUR == 15){
+                        powerUpOnOff = true;
+                        var powerUpE = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,pueImagem);
+                        powerUpExplosao.push(powerUpE);
+                    }
+                    if(pwUR == 5 || pwUR == 11){
+                        powerUpOnOff = true;
+                        var novoPUBomba = new PlusBomba(paredesD[i2].x,paredesD[i2].y,30,30,imagemPUpB);
+                        powerUpBombas.push(novoPUBomba);
+                    }
                     paredesD.splice(i2,1);
                 }
             }
@@ -538,17 +578,32 @@ window.addEventListener("keydown",function (e){
         case DOWN:
             mvDown = true;
             break;
+        //Botão usado para criar bombas.
         case SPACE:
-            if(bombas.length<2){
+            //Validação para verificar o número de bombas que pode ser colocada.
+            if(bombas.length<numeroDeBombas){
+                //Variável usada pegando o centroX do boneco para deixar a bomba no centro do bloco. 
                 xBomba = Math.floor(boneco.centroX()/50)*50; 
+                //Variável usada pegando o centroY do boneco para deixar a bomba no centro do bloco.
                 yBomba = Math.floor(boneco.centroY()/50)*50;
+                //Objeto bomba sendo adicionado a uma váriavel.
                 bomba = new Bomba(xBomba,yBomba,50,50,imagemBomba);
-                bombas.push(bomba);
-            
-                break; 
+                //Validação para colocar a primeira bomba.
+                if(bombas.length<1){
+                    bombas.push(bomba);
+                }
+                /* Validação para verificar se a última bomba colocada tem a mesma localização da nova bomba.
+                Só será colocada uma nova bomba se as coordenadas forem diferentes. Foi feito usando o array das bombas,
+                pegando a última posição das bombas, comparando 3 vezes, na primeira para não ser colocada no mesmo lugar,
+                na segunda para conseguir botar em linha(mesmo x) e em coluna(no mesmo y) e na última para colocar na diagonal.
+                */
+                if(((((bombas[bombas.length-1].x) === bomba.x) && ((bombas[bombas.length-1].y) != bomba.y)) || (((bombas[bombas.length-1].y) === bomba.y) && ((bombas[bombas.length-1].x) != bomba.x))) || ((bombas[bombas.length-1].y) != bomba.y) && ((bombas[bombas.length-1].x) != bomba.x)){  
+                    bombas.push(bomba);       
+                    break; 
+                }
             }
-    }   
-}, false)
+    }
+}, false);
 
 
 
@@ -637,6 +692,15 @@ function mudarFase(){
      [1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],
      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]         
      ]
+     
+
+     inimigofases++;
+
+     if(inimigofases === 1){
+        inimigos.push(inimigo5);
+        
+     }
+
  }
 
     //Lógica para criar as paredes do mapa
@@ -733,9 +797,10 @@ var yorX;
 var yorX1;
 var yorX2;
 var yorX3;
+var yorX4;
+var pwUR;
 var x;
 var y;
-
 
 var fogoColidiuD = false;
 var fogoColidiuB = false;
@@ -750,12 +815,14 @@ var xBomba = undefined;         //posição da bomba horizontalmente
 var yBomba= undefined;          //posição da bomba verticalmente
 var bomba;
 var powerUpOnOff = true;        
-var tE = 3;                     //Tamanho da explosão, inicialmente 3 blocos 
+var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
+var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
 var fase = 1;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
 var vidas = 3;                  //Quantidade de vidas inciais
+var inimigofases = 0;
 
 
 //DEFININDO IMAGENS.
@@ -812,9 +879,16 @@ imagemExplosao.src = "img/pngexplosao.png";
 var pueImagem = new Image();
 pueImagem.src = "img/powerupexplosao.png";
 
+var imagemPUpB = new Image();
+imagemPUpB.src = "img/imagemPowerUpBomba.png";
+
 //imagem do inimigo fase 1(lobo)
 var imagemInimigo = new Image();
 imagemInimigo.src ="spriteporco/lobinhosheet.png";
+
+//imagem do inimigo fase 2(mumia)
+var imagemInimigoM = new Image();
+imagemInimigoM.src ="spriteporco/mumiasheet.png";
 
 //imagem da porta, para passar de fase
 var imagemPorta = new Image();
@@ -822,6 +896,7 @@ imagemPorta.src ="https://imgur.com/Ou9w4gH.png";
 
 //Arrays
 var powerUpExplosao = [];   //qunatidade da explosão após o powerUp
+var powerUpBombas = [];
 var bombas = [];            //Quantidade de bomba
 var sprites = [];           //para os personagens
 var paredes = [];           //para as paredes fixas
@@ -838,14 +913,16 @@ var boneco = new Sprite(100,100,30,30,imagemBoneco);
 sprites.push(boneco);
 
 //variavel do powerUp, tendo a posição inicial dela
-var powerUpE = new Sprite(500,500,30,30,pueImagem);
-powerUpExplosao.push(powerUpE);
 
 //variavel do inimigo, tendo a posição inicial dela
 var inimigo = new Sprite(200,200,30,30,imagemInimigo);
 var inimigo2 = new Sprite(600,100,30,30,imagemInimigo);
 var inimigo3 = new Sprite(100,600,30,30,imagemInimigo);
 var inimigo4 = new Sprite(600,600,30,30,imagemInimigo);
+
+//Inimigo fase 2
+var inimigo5 = new Sprite(150,150,30,30,imagemInimigoM);
+
 inimigos.push(inimigo,inimigo2,inimigo3,inimigo4);
 
 //variavel da porta, tendo a posição inicial dela

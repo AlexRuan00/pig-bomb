@@ -82,7 +82,7 @@ function loop (){
     desenha();                          
     atualiza();                         
     mudarFase();                //Função para mudar de fase
-    console.log(inimigos.length);
+    console.log(velocidade,tempoD);
 }
 
 
@@ -286,6 +286,28 @@ function atualiza(){
             powerUpOnOff = false;
         }
     }
+
+    for(let i in powerDebuffMacas){
+        let pwD = powerDebuffMacas[i];
+        colisao2(boneco,pwD);
+        if(colidiu){
+            var cont = 0;
+            if(tempoD>500 && velocidade > 1|| cont < 3 && velocidade > 1){
+                velocidade --;
+                tempoD = 0;
+                cont ++;
+            }   
+            pwUR = undefined;
+            colidiu = false;
+            powerDebuffMacas.splice(i,1);
+            powerUpOnOff = false;
+        }
+    }
+    tempoD++;
+    if(tempoD==500){
+        velocidade = 4;
+    }
+
     for(let i in powerUpMacas){
         let pwM = powerUpMacas[i];
         colisao2(boneco,pwM);
@@ -508,6 +530,11 @@ function desenha() {
         ctx.drawImage(pum.imagem,pum.x,pum.y,pum.largura,pum.altura);
     }
 
+    for(var i in powerDebuffMacas){
+        var pdm = powerDebuffMacas[i];
+        ctx.drawImage(pdm.imagem,pdm.x,pdm.y,pdm.largura,pdm.altura);
+    }
+
     //Desenhando a porta
     if(portas.length === 1){
         ctx.drawImage(portas[0].imagem,portas[0].x,portas[0].y,portas[0].largura,portas[0].altura);
@@ -595,16 +622,26 @@ function detectarColisoes(ob1,ob2){
                     fogoColidiuC = true;
                 }
                 if(ob1 === paredesD){
-                    pwUR =  Math.floor(Math.random() * 20);
-                    if(pwUR == 0 || pwUR == 15){
+                    pwUR = 45; //Math.floor(Math.random() * 50);
+                    if(pwUR == 5 || pwUR == 35){
                         powerUpOnOff = true;
                         var powerUpE = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,pueImagem);
                         powerUpExplosao.push(powerUpE);
                     }
-                    if(pwUR == 5 || pwUR == 11){
+                    if(pwUR == 11 || pwUR == 27){
                         powerUpOnOff = true;
                         var novoPUBomba = new PlusBomba(paredesD[i2].x,paredesD[i2].y,30,30,imagemPUpB);
                         powerUpBombas.push(novoPUBomba);
+                    }
+                    if(pwUR == 14 && fase >= 3){
+                        powerUpOnOff = true;
+                        var powerMacas = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,imagemPUMaca);
+                        powerUpMacas.push(powerMacas);                        
+                    }
+                    if(pwUR == 45 && fase >= 3){
+                        powerUpOnOff = true;
+                        var debuffMaca = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,imagemDebuffMaca);
+                        powerDebuffMacas.push(debuffMaca);
                     }
                     paredesD.splice(i2,1);
                 }
@@ -768,19 +805,19 @@ function mudarFase(){
     if(fase === 1){
         mapa = [ 
         [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
-        [1,0,0,0,0,7,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,7,0,7,0,0,0,0,0,0,1],
-        [1,0,0,0,0,7,0,0,0,0,8,0,0,0,1],
-        [1,0,0,0,8,8,0,7,0,0,0,0,0,0,1],
-        [1,7,0,0,7,8,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,7,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
-        [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,7,0,0,8,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,8,0,8,0,8,0,8,0,8,0,0,1],
+        [1,0,7,8,7,8,7,8,7,8,7,8,7,0,1],
+        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,1],
+        [1,0,7,8,7,8,0,0,0,8,7,8,7,0,1],
+        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,1],
+        [1,0,7,8,0,8,7,8,7,8,0,8,7,0,1],
+        [1,8,8,8,0,8,8,8,8,8,0,8,8,8,1],
+        [1,0,7,8,0,8,7,8,7,8,0,8,7,0,1],
+        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,1],
+        [1,0,7,8,7,8,0,0,0,8,7,8,7,0,1],
+        [1,8,8,8,8,8,8,8,8,8,8,8,8,8,1],
+        [1,0,7,8,7,8,7,8,7,8,7,8,7,0,1],
+        [1,0,0,8,0,8,0,8,0,8,0,8,0,0,1],
         [3,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
         ]
     }
@@ -998,6 +1035,7 @@ var rodou = false;              //Variavel para sempre desenhar as paredes quand
 var podeMorrer = true;          //Quando atingido, o personagem fica piscando, ficando tambem imortal
 var tempo = 1000;               //Tempo do personagem, quando ele é atingido, ele recebe valo inferior a 1000
 var tempoE = 1000;              //Tempo da explosão da bomba
+var tempoD = 1000;
 var tamanhoImg = 30;            //Tamanho da imagem do personagem
 var xBomba = undefined;         //posição da bomba horizontalmente
 var yBomba= undefined;          //posição da bomba verticalmente
@@ -1097,9 +1135,11 @@ pueImagem.src = "img/powerupexplosao.png";
 var imagemPUpB = new Image();
 imagemPUpB.src = "img/imagemPowerUpBomba.png";
 
-
 var imagemPUMaca = new Image();
 imagemPUMaca.src = "img/pngmaca.png";
+
+var imagemDebuffMaca = new Image();
+imagemDebuffMaca.src = "img/pngmaca.png";
 
 //imagem do inimigo fase 1(lobo)
 var imagemInimigo = new Image();
@@ -1132,6 +1172,7 @@ imagemBossRodrigo.src = "https://imgur.com/hxs2pTE.png"
 var powerUpExplosao = [];   //qunatidade da explosão após o powerUp
 var powerUpBombas = [];
 var powerUpMacas = [];
+var powerDebuffMacas = [];
 
 var bombas = [];            //Quantidade de bomba
 var sprites = [];           //para os personagens
@@ -1154,10 +1195,10 @@ sprites.push(boneco);
 //variavel do powerUp, tendo a posição inicial dela
 
 //variavel do inimigo, tendo a posição inicial dela
-var inimigo = new Sprite(200,200,30,30,imagemInimigo);
-var inimigo2 = new Sprite(600,100,30,30,imagemInimigo);
-var inimigo3 = new Sprite(100,600,30,30,imagemInimigo);
-var inimigo4 = new Sprite(600,600,30,30,imagemInimigo);
+var inimigo = new Sprite(200,400,30,30,imagemInimigo);
+var inimigo2 = new Sprite(400,250,30,30,imagemInimigo);
+var inimigo3 = new Sprite(400,550,30,30,imagemInimigo);
+var inimigo4 = new Sprite(500,400,30,30,imagemInimigo);
 inimigos.push(inimigo,inimigo2,inimigo3,inimigo4);
 
 //Inimigos fase 2

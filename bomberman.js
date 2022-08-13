@@ -344,16 +344,21 @@ function atualiza(){
         direcaoIni(inimigo3,yorX2);
         direcaoIni(inimigo4,yorX3);
         //fase 2
-        direcaoIni(inimigo5,yorX4);
+        if(fase === 2){
+            direcaoIni(inimigo5,yorX4);
+        }
+
         //fase 3
-        direcaoIni(inimigo9,yorX10);
-        direcaoIni(inimigo10,yorX11);
-        direcaoIni(inimigo11,yorX12);
-        direcaoIni(inimigo12,yorX13);
+        if(fase === 3){
+            direcaoIni(inimigo11,yorX12);
+            direcaoIni(inimigo9,yorX10);
+            direcaoIni(inimigo10,yorX11);
+            direcaoIni(inimigo12,yorX13);
+        }    
     }
 
     if(inimigos.length === 0 && portas.length<1){
-        porta = new Sprite(400,400,50,50,imagemPorta);
+        porta = new Sprite(350,450,50,50,imagemPorta);
         portas.push(porta);
     } if(inimigos.length > 0){
         portas = [];
@@ -385,7 +390,7 @@ function desenha() {
         document.getElementById("jogo").style.backgroundImage = "url('https://w7.pngwing.com/pngs/644/969/png-transparent-texture-mapping-opengameart-org-gimp-tile-paper-sand-texture-brown-isometric-graphics-in-video-games-and-pixel-art.png')";   
     }
      if(fase === 3){
-        document.getElementById("jogo").style.backgroundImage = "url('https://w7.pngwing.com/pngs/644/969/png-transparent-texture-mapping-opengameart-org-gimp-tile-paper-sand-texture-brown-isometric-graphics-in-video-games-and-pixel-art.png')";   
+        document.getElementById("jogo").style.backgroundImage = "url('img/pngcha03.png')";   
     }
 
     
@@ -622,7 +627,7 @@ function detectarColisoes(ob1,ob2){
                     fogoColidiuC = true;
                 }
                 if(ob1 === paredesD){
-                    pwUR = 45; //Math.floor(Math.random() * 50);
+                    pwUR = 45;
                     if(pwUR == 5 || pwUR == 35){
                         powerUpOnOff = true;
                         var powerUpE = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,pueImagem);
@@ -851,6 +856,31 @@ function mudarFase(){
      if(fase === 3){
         mapa = [ 
         [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
+        [1,0,0,0,3,8,3,3,0,0,0,0,0,0,1],
+        [1,0,0,0,3,8,3,8,0,0,0,0,0,0,1],
+        [1,0,0,0,3,8,3,3,0,0,0,0,0,0,1],
+        [1,0,0,0,8,8,3,8,3,0,0,0,0,0,1],
+        [1,8,0,0,8,8,3,3,3,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,8,8,8,8,8,8,0,1],
+        [1,0,0,0,0,0,0,3,3,3,3,3,0,0,1],
+        [1,0,0,0,0,0,0,3,3,0,0,0,0,0,1],
+        [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
+        [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,8,0,0,8,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [7,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
+        ]
+        inimigosFases3++;
+        if(inimigosFases3 === 1){
+            
+            inimigos.push(inimigo9,inimigo10,inimigo11,inimigo12);
+        }
+    }
+
+    if(fase === 4){
+        mapa = [ 
+        [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
         [1,0,0,0,0,8,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,8,0,8,0,0,0,0,0,0,1],
         [1,0,0,0,0,8,0,0,0,0,0,0,0,0,1],
@@ -866,10 +896,10 @@ function mudarFase(){
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [7,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
         ]
-        inimigosFases3++;
-        if(inimigosFases3 === 1){
+        inimigosFases4++;
+        if(inimigosFases4 === 1){
             
-            inimigos.push(inimigo9,inimigo10,inimigo11,inimigo12);
+            rodrigoBoss.push(bossRodrigo);
         }
     }
 
@@ -1025,6 +1055,7 @@ var pwUR;
 var x;
 var y;
 var inimigosFases3 = 0;
+var inimigosFases4 = 0;
 var BossX;
 
 var fogoColidiuD = false;
@@ -1117,7 +1148,7 @@ var vidro = new Image ();
 vidro.src = "imgFase3/barril.png";
 
 var pedra = new Image ();
-pedra.src = "imgFase3/pedra.png";
+pedra.src = "imgFase3/espedra.png";
 
 //imagem da Bomba
 
@@ -1139,7 +1170,7 @@ var imagemPUMaca = new Image();
 imagemPUMaca.src = "img/pngmaca.png";
 
 var imagemDebuffMaca = new Image();
-imagemDebuffMaca.src = "img/pngmaca.png";
+imagemDebuffMaca.src = "img/pngmacaruim.png";
 
 //imagem do inimigo fase 1(lobo)
 var imagemInimigo = new Image();
@@ -1212,7 +1243,7 @@ var inimigo12 = new Sprite(600,600,30,30,imagemguerreiroV);
 
 //inigmigos fase 4
 var bossRodrigo = new Sprite(630,130,30,30,imagemBossRodrigo)
-rodrigoBoss.push(bossRodrigo);
+
 
 loop(); //Chamando a função loop pela primeira vez para que ela se repita sozinha logo em seguida. 
 

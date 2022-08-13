@@ -8,17 +8,25 @@
     <title>Pig-Bomb</title>
 </head>
 <body>
-    
+   
     <div class="fundo"> 
+
+ 
+
         <div class="score">
+
+            <div id="coracao"><img src=img/coracao.png border=0></div>
+            <div id="bomba"><img src=img/bomba.png border=0></div>
             <p id="vida"></p>
+             <p id="bombas"></p>
             <p id="velocidade"></p>
         </div>  
         <div id="jogo"> <canvas width="750" height="750"/> </div>
     </div>
     
 
-
+<div class="pause" id="pause">
+        <div class="pause-content"> <h1 id="pauset">PAUSE</h1></div>
     <script type="text/javascript" src="bomberman.js"></script>
 </body>
 </html>

@@ -79,12 +79,28 @@ PlusBomba.prototype.centroY = function(){
 //Para chamar todas as funções
 function loop (){ 
     window.requestAnimationFrame(loop,tela);
-    desenha();                          
-    atualiza();                         
-    mudarFase();                //Função para mudar de fase
-    console.log(velocidade,tempoD);
+    if(!pause){
+        closePause()
+        
+         desenha();                          
+        atualiza();                         
+        mudarFase();
+    }
+    if(pause){
+    showPause()
+    }
+                   //Função para mudar de fase
+    console.log(pause);
 }
+ function showPause() {
+        var element = document.getElementById("pause");
+        element.classList.add("show-pause");
+    }
 
+    function closePause() {
+        var element = document.getElementById("pause");
+        element.classList.remove("show-pause");
+    }
 
 function atualiza(){
     //Condições para movimentar o personagem principal
@@ -376,7 +392,8 @@ function atualiza(){
 
     
 
-    mostrarVida.textContent = ("Vidas: "+vidas);    //Mostrar vida do personagem principal
+    mostrarVida.textContent = (vidas);    //Mostrar vida do personagem principal
+    mostrarBombas.textContent = (numeroDeBombas);
 }
 
 //Função para desenhar tudo na tela.
@@ -627,7 +644,7 @@ function detectarColisoes(ob1,ob2){
                     fogoColidiuC = true;
                 }
                 if(ob1 === paredesD){
-                    pwUR = 45;
+                    pwUR = Math.floor(Math.random()*50);
                     if(pwUR == 5 || pwUR == 35){
                         powerUpOnOff = true;
                         var powerUpE = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,pueImagem);
@@ -709,6 +726,9 @@ window.addEventListener("keydown",function (e){
         case LEFT:
             mvLeft = true;
             break;
+        case PP:
+            pause = !pause;
+        break;
         case UP:
             mvUp = true;
             //Caso o personagem clique para cima estando dentro da porta, é passado para a proxima fase.
@@ -751,12 +771,14 @@ window.addEventListener("keydown",function (e){
                 pegando a última posição das bombas, comparando 3 vezes, na primeira para não ser colocada no mesmo lugar,
                 na segunda para conseguir botar em linha(mesmo x) e em coluna(no mesmo y) e na última para colocar na diagonal.
                 */
-                if(((((bombas[bombas.length-1].x) === bomba.x) && ((bombas[bombas.length-1].y) != bomba.y)) || (((bombas[bombas.length-1].y) === bomba.y) && ((bombas[bombas.length-1].x) != bomba.x))) || ((bombas[bombas.length-1].y) != bomba.y) && ((bombas[bombas.length-1].x) != bomba.x)){  
+                if(((((bombas[bombas.length-1].x) === bomba.x) && ((bombas[bombas.length-1].y) != bomba.y)) || 
+                    (((bombas[bombas.length-1].y) === bomba.y) && ((bombas[bombas.length-1].x) != bomba.x))) || 
+                    ((bombas[bombas.length-1].y) != bomba.y) && ((bombas[bombas.length-1].x) != bomba.x)){  
                     bombas.push(bomba);       
                     break; 
                 }
             }
-    }
+        }
 }, false);
 
 
@@ -1037,11 +1059,11 @@ var tela = document.querySelector("canvas");
 var ctx = tela.getContext("2d");
 
 //teclas
-var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32;
+var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32, PP = 80;
 
 //movimento
 var mvLeft = mvUp = mvRight = mvDown = bomb = false;
-var velocidade = 4;
+var velocidade = 1;
 var yorX;
 var yorX1;
 var yorX2;
@@ -1058,6 +1080,7 @@ var inimigosFases3 = 0;
 var inimigosFases4 = 0;
 var BossX;
 
+var pause = false;
 var fogoColidiuD = false;
 var fogoColidiuB = false;
 var fogoColidiuE = false;
@@ -1079,6 +1102,7 @@ var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção 
 var fase = 1;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
 var vidas = 3;                  //Quantidade de vidas inciais
+var mostrarBombas = document.getElementById("bombas"); 
 var porta;
 var inimigofases = 0;
 var tempoBoss = 0;

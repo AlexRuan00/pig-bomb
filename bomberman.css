@@ -5,7 +5,42 @@ body {
 	background-repeat:no-repeat;
 	background-color:#000;
 }
+.pause{
+    z-index:1;
+    position: fixed;
+    top:0;
+    left:0;
+    padding:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0.25s ease-in-out , opacity 0.25s ease-in-out, transform 0.25s ease-in-out;   
+}
 
+.pause-content{
+    
+    padding: 16px 24px;    
+    width: 384px;
+    border-radius: 0.5rem;
+}
+.show-pause{
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);    
+}
+#pauset {
+	left: 47.5%;
+	position: absolute;
+	margin-bottom: 0px;
+    color: LightPink;
+    font-family: ;
+}
 .fundo {
 	margin: 0;
 	width: 100vw;
@@ -34,25 +69,54 @@ body {
 	margin-bottom: 15px;
 	width: 750px;
 	height: 45px;
-	background: black;
+	background: LightPink;
 	top: 80px;
-	background-image: url(https://i.imgur.com/N0Y3SFj.jpg);
-
+	border: solid;
+	boeder-radius: 0.5rem;
+	border-color: DeepPink;
 }
-#vida{
-	top: 1%;
+#coracao{
 	position: absolute;
-	left: 0%;
+	left: 3%;
 	transform: translate(25%);
 	font-size: 40px;
 	margin-bottom: 0px;
     color: #000;
     margin: auto;
 	width: auto;
-	font-family: cursive;
+}
+
+#vida{
+	position: absolute;
+	left: 8%;
+	transform: translate(25%);
+	font-size: 40px;
+	margin-bottom: 0px;
+    color: #000;
+    margin: auto;
+	width: auto;
+}
+#bomba{
+	position: absolute;
+	left: 15%;
+	transform: translate(25%);
+	font-size: 40px;
+	margin-bottom: 0px;
+    color: #000;
+    margin: auto;
+}
+#bombas{
+	position: absolute;
+	left: 19%;
+	transform: translate(25%);
+	font-size: 40px;
+	margin-bottom: 0px;
+    color: #000;
+    margin: auto;
+	width: auto;
 }
 #velocidade{
-	top: 15%;
+	top: 10%;
 	position: absolute;
 	right: 16%;
 	transform: translate(25%);

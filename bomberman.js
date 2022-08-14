@@ -348,6 +348,9 @@ function atualiza(){
         yorX2 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX3 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX4 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX5 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX6 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX7 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX10 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX11 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX12 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
@@ -362,6 +365,9 @@ function atualiza(){
         //fase 2
         if(fase === 2){
             direcaoIni(inimigo5,yorX4);
+            direcaoIni(inimigo6,yorX5);
+            direcaoIni(inimigo7,yorX6);
+            direcaoIni(inimigo8,yorX7);
         }
 
         //fase 3
@@ -621,6 +627,8 @@ function colisao2(r1,r2){
     }
 
 }
+
+//Colisão entre 2 objetos
 function detectarColisoes(ob1,ob2){
 
    for(let i2 in ob1){
@@ -853,25 +861,25 @@ function mudarFase(){
     if(fase === 2){
          mapa = [ 
          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-         [1,1,1,0,0,8,0,0,0,0,0,0,1,1,1],
-         [1,1,0,0,0,8,0,8,0,0,0,0,1,1,1],
-         [1,0,0,0,0,8,0,0,0,0,0,0,0,0,1],
-         [1,0,0,0,8,8,0,8,0,0,0,0,0,0,1],
-         [1,8,0,0,8,8,0,0,0,0,0,0,0,0,1],
+         [1,1,1,8,0,8,8,8,8,8,8,8,1,1,1],
+         [1,1,0,8,0,8,0,8,0,0,0,0,1,1,1],
+         [1,8,0,8,0,8,0,0,0,0,0,0,0,0,1],
+         [1,8,0,0,8,8,0,8,0,0,0,0,0,0,1],
+         [1,8,8,8,8,8,0,0,0,0,0,0,0,0,1],
          [1,0,0,0,0,0,0,8,0,0,0,0,0,0,1],
-         [1,0,0,0,0,0,1,1,1,0,0,0,0,0,1],
-         [1,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
+         [1,1,1,8,1,1,1,1,1,1,1,8,1,1,1],
+         [1,1,1,8,1,1,1,1,1,1,1,0,1,1,1],
          [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
-         [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
-         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-         [1,1,1,0,0,0,0,8,0,0,8,0,1,1,1],
-         [1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],
+         [1,8,8,8,8,8,0,8,8,0,0,0,0,0,1],
+         [1,0,8,8,0,0,0,0,0,0,0,0,0,0,1],
+         [1,1,1,8,0,0,0,8,0,0,8,0,1,1,1],
+         [1,1,1,8,0,0,0,0,0,0,0,0,1,1,1],
          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]         
          ]
          inimigofases++;
 
         if(inimigofases === 1){
-        inimigos.push(inimigo5);
+        inimigos.push(inimigo5,inimigo6,inimigo7,inimigo8);
         
          }
      }  
@@ -1069,6 +1077,9 @@ var yorX1;
 var yorX2;
 var yorX3;
 var yorX4;
+var yorX5;
+var yorX6;
+var yorX7;
 var yorX10; 
 var yorX11; 
 var yorX12; 
@@ -1099,7 +1110,7 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 1;                   //Fase inicial
+var fase = 2;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
 var vidas = 3;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
@@ -1257,7 +1268,11 @@ var inimigo4 = new Sprite(500,400,30,30,imagemInimigo);
 inimigos.push(inimigo,inimigo2,inimigo3,inimigo4);
 
 //Inimigos fase 2
-var inimigo5 = new Sprite(150,150,30,30,imagemInimigoM);
+var inimigo5 = new Sprite(400,250,30,30,imagemInimigoM);
+var inimigo6 = new Sprite(200,150,30,30,imagemInimigoM);
+var inimigo7 = new Sprite(400,550,30,30,imagemInimigoM);
+var inimigo8 = new Sprite(600,600,30,30,imagemInimigoM);
+
 
 //inimigos fase 3
 var inimigo9 = new Sprite(200,200,30,30,imagemguerreiroA);

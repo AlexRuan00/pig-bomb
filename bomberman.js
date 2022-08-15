@@ -335,6 +335,21 @@ function atualiza(){
         
     }
 
+    for(let i2 in bombas){
+        let ini = bombas[i2]
+        for(let i in paredesD) {
+            let prd = paredesD[i]
+            colisao(ini,prd);
+        }
+    }
+    for(let i2 in bombas){
+        let ini = bombas[i2]
+        for(let i in paredes) {
+            let prd = paredes[i]
+            colisao(ini,prd);
+        }
+    }
+
     
     //MOVIMENTAÇÃO DO INIMIGOS  
 
@@ -407,6 +422,41 @@ function atualiza(){
 
     mostrarVida.textContent = (vidas);    //Mostrar vida do personagem principal
     mostrarBombas.textContent = (numeroDeBombas);
+}
+
+function bombaChutar(){
+    //estruturas condicionais que controla as variaveis booleanas que ativam o deslizar da bomba
+    if((bomba.x > boneco.x + 25) && (chute === true) && (deslizarCima === false) && (deslizarBaixo === false) && (deslizarEsquerda === false)){
+        deslizarCima = false;
+        deslizarBaixo = false;
+        deslizarEsquerda = false;
+        deslizarDireita = true;
+     }else if((bomba.x < boneco.x - 25) && (chute === true) && (deslizarDireita === false) && (deslizarBaixo === false) && (deslizarCima === false)){
+        deslizarCima = false;
+        deslizarBaixo = false;
+        deslizarEsquerda = true;
+        deslizarDireita = false;
+     }else if((bomba.y > boneco.y + 25) && (chute === true) && (deslizarBaixo === false) && (deslizarDireita === false) && (deslizarEsquerda === false)){
+        deslizarCima = true;
+        deslizarBaixo = false;
+        deslizarEsquerda = false;
+        deslizarDireita = false;
+     }else if((bomba.y < boneco.y - 25) && (chute === true) && (deslizarCima === false) && (deslizarDireita === false) && (deslizarEsquerda === false)){
+        deslizarCima = false;
+        deslizarBaixo = true;
+        deslizarEsquerda = false;
+        deslizarDireita = false;
+     }
+    //estruturas condicionais que fazem a bomba deslizar se ativadas
+     if((deslizarDireita === true) && (bomba.x < 650)){
+        bomba.x += velocidade;
+     }else if((deslizarEsquerda === true) && (bomba.x > 50)){
+        bomba.x -= velocidade;
+     }else if((deslizarCima === true) && (bomba.y < 650)){
+        bomba.y += velocidade;
+     }else if((deslizarBaixo === true) && (bomba.y > 50)){
+        bomba.y -= velocidade;
+     }
 }
 
 //Função para desenhar tudo na tela.
@@ -518,6 +568,13 @@ function desenha() {
                 detectarColisoes(paredes,arrayExplosaoC);
             }
             bombas.shift();
+                        //essas variaveis resetam a movimentação da bomba caso elas não estivessem aqui
+            //a bomba sempre iria "nascer" deslizando
+            deslizarDireita = false;
+            deslizarEsquerda = false;
+            deslizarCima = false;
+            deslizarBaixo = false;
+            chute = false
         }    
     }  
 
@@ -770,6 +827,11 @@ window.addEventListener("keydown",function (e){
         case DOWN:
             mvDown = true;
             break;
+            case C:
+                if(fase === 4){
+                chute = true;
+                }
+                break;
         //Botão usado para criar bombas.
         case SPACE:
             //Validação para verificar o número de bombas que pode ser colocada.
@@ -783,6 +845,7 @@ window.addEventListener("keydown",function (e){
                 //Validação para colocar a primeira bomba.
                 if(bombas.length<1){
                     bombas.push(bomba);
+                    setInterval(bombaChutar, 20);
                 }
                 /* Validação para verificar se a última bomba colocada tem a mesma localização da nova bomba.
                 Só será colocada uma nova bomba se as coordenadas forem diferentes. Foi feito usando o array das bombas,
@@ -1111,7 +1174,7 @@ var tela = document.querySelector("canvas");
 var ctx = tela.getContext("2d");
 
 //teclas
-var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32, PP = 80;
+var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32, PP = 80,C = 67;
 
 //movimento
 var mvLeft = mvUp = mvRight = mvDown = bomb = false;
@@ -1135,6 +1198,11 @@ var inimigosFases3 = 0;
 var inimigosFases4 = 0;
 var BossX;
 
+var deslizarDireita = false;   //Variavel que controla o deslizar da bomba quando chutada(fase 4)
+var deslizarEsquerda = false;  //Variavel que controla o deslizar da bomba quando chutada(fase 4)
+var deslizarCima = false;      //Variavel que controla o deslizar da bomba quando chutada(fase 4)
+var deslizarBaixo = false;     //Variavel que controla o deslizar da bomba quando chutada(fase 4)
+var chute = false;             //Variavel que controla a ação de chutar a bomba
 var pause = false;
 var fogoColidiuD = false;
 var fogoColidiuB = false;
@@ -1154,9 +1222,9 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 4;                   //Fase inicial
+var fase = 1;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
-var vidas = 1;                  //Quantidade de vidas inciais
+var vidas = 5;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
 var porta;
 var inimigofases = 0;

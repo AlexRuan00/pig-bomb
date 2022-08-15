@@ -252,16 +252,17 @@ function atualiza(){
         }
         colidiu = false;
     }
-
-    colisao2(bossRodrigo,boneco);
-    if(colidiu){
-        if(tempo>500){
-            vidas -=2;    
-            tempo = 0;
+    
+    if(rodrigoBoss.length > 0){
+        colisao2(rodrigoBoss[0],boneco);
+        if(colidiu){
+            if(tempo>500){
+                vidas -=2;    
+                tempo = 0;
+            }
+            colidiu = false;
         }
-        colidiu = false;
     }
-
     for (let i in inimigos) {
         let ini = inimigos[i];
       
@@ -301,6 +302,23 @@ function atualiza(){
         }
     }
 
+    for(let i in powerUpVelocidade){
+        let pwV = powerUpVelocidade[i];
+        colisao2(boneco,pwV);
+        if(colidiu){
+            if(velocidade < 4.5){
+                if(bloqueador){
+                    contadorVel = velocidade + 0.5;
+                    velocidade = velocidade + 0.5;
+                }
+            }   
+            pwUR = undefined;
+            colidiu = false;
+            powerUpVelocidade.splice(i,1);
+            powerUpOnOff = false;
+        }
+    }
+
     for(let i in powerDebuffMacas){
         let pwD = powerDebuffMacas[i];
         colisao2(boneco,pwD);
@@ -310,6 +328,7 @@ function atualiza(){
                 velocidade --;
                 tempoD = 0;
                 cont ++;
+                bloqueador = false;
             }   
             pwUR = undefined;
             colidiu = false;
@@ -319,7 +338,8 @@ function atualiza(){
     }
     tempoD++;
     if(tempoD==500){
-        velocidade = 4;
+        bloqueador = true;
+        velocidade = contadorVel;
     }
 
     for(let i in powerUpMacas){
@@ -362,6 +382,11 @@ function atualiza(){
         yorX3 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX4 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX5 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX51 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX52 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX53 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX54 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
+        yorX55 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX6 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX7 =  Math.floor(Math.random() * 4);   //Número aléatorio de 0 a 3, definindo a direção do inimigo;
         yorX10 =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
@@ -381,6 +406,11 @@ function atualiza(){
             direcaoIni(inimigo6,yorX5);
             direcaoIni(inimigo7,yorX6);
             direcaoIni(inimigo8,yorX7);
+            direcaoIni(inimigo51,yorX51);
+            direcaoIni(inimigo52,yorX52);
+            direcaoIni(inimigo53,yorX53);
+            direcaoIni(inimigo54,yorX54);
+            direcaoIni(inimigo55,yorX55);
         }
 
         //fase 3
@@ -401,7 +431,7 @@ function atualiza(){
         } 
     }
 
-    if(inimigos.length === 0 && portas.length<1){
+    if(inimigos.length === 0 && portas.length<1 && rodrigoBoss.length === 0){
         porta = new Sprite(350,450,50,50,imagemPorta);
         portas.push(porta);
     } if(inimigos.length > 0){
@@ -620,6 +650,11 @@ function desenha() {
         ctx.drawImage(pub.imagem,pub.x,pub.y,pub.largura,pub.altura);
     }
 
+    for(var i in powerUpVelocidade){
+        var puv = powerUpVelocidade[i];
+        ctx.drawImage(puv.imagem,puv.x,puv.y,puv.largura,puv.altura);
+    }
+
     for(var i in powerUpMacas){
         var pum = powerUpMacas[i];
         ctx.drawImage(pum.imagem,pum.x,pum.y,pum.largura,pum.altura);
@@ -730,6 +765,11 @@ function detectarColisoes(ob1,ob2){
                         var novoPUBomba = new PlusBomba(paredesD[i2].x,paredesD[i2].y,30,30,imagemPUpB);
                         powerUpBombas.push(novoPUBomba);
                     }
+                    if(pwUR == 17 && fase >=2 || pwUR == 33 && fase >=2){
+                        powerUpOnOff = true;
+                        var powerUpVel = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,imagemPUVel);
+                        powerUpVelocidade.push(powerUpVel);
+                    }
                     if(pwUR == 14 && fase >= 3){
                         powerUpOnOff = true;
                         var powerMacas = new Sprite(paredesD[i2].x,paredesD[i2].y,30,30,imagemPUMaca);
@@ -811,7 +851,7 @@ window.addEventListener("keydown",function (e){
                 colisao2(boneco,porta);
             }
             
-            if(colidiu && inimigos.length === 0 ){
+            if(colidiu && inimigos.length === 0 && rodrigoBoss.length === 0){
                 colidiu = false;
                 paredes = [];
                 paredesD = [];    
@@ -952,7 +992,7 @@ function mudarFase(){
          inimigofases++;
 
         if(inimigofases === 1){
-        inimigos.push(inimigo5,inimigo6,inimigo7,inimigo8);
+            inimigos.push(inimigo5,inimigo6,inimigo7,inimigo8,inimigo51,inimigo52,inimigo53,inimigo54,inimigo55);
         
          }
      }  
@@ -1178,13 +1218,20 @@ var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32, PP = 80,C = 67;
 
 //movimento
 var mvLeft = mvUp = mvRight = mvDown = bomb = false;
-var velocidade = 3;
+var velocidade = 1;
+var contadorVel;
+var bloqueador = true;
 var yorX;
 var yorX1;
 var yorX2;
 var yorX3;
 var yorX4;
 var yorX5;
+var yorX51;
+var yorX52;
+var yorX53;
+var yorX54;
+var yorX55;
 var yorX6;
 var yorX7;
 var yorX10; 
@@ -1222,9 +1269,9 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 1;                   //Fase inicial
+var fase = 4;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
-var vidas = 5;                  //Quantidade de vidas inciais
+var vidas = 50;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
 var porta;
 var inimigofases = 0;
@@ -1330,6 +1377,9 @@ pueImagem.src = "img/powerupexplosao.png";
 var imagemPUpB = new Image();
 imagemPUpB.src = "img/imagemPowerUpBomba.png";
 
+var imagemPUVel = new Image();
+imagemPUVel.src = "img/imagemPUVel.png"
+
 var imagemPUMaca = new Image();
 imagemPUMaca.src = "img/pngmaca.png";
 
@@ -1370,6 +1420,7 @@ imagemBossRodrigo.src = "https://imgur.com/hxs2pTE.png"
 //Arrays
 var powerUpExplosao = [];   //qunatidade da explosão após o powerUp
 var powerUpBombas = [];
+var powerUpVelocidade = [];
 var powerUpMacas = [];
 var powerDebuffMacas = [];
 
@@ -1402,6 +1453,11 @@ inimigos.push(inimigo,inimigo2,inimigo3,inimigo4);
 
 //Inimigos fase 2
 var inimigo5 = new Sprite(400,250,30,30,imagemInimigoM);
+var inimigo51 = new Sprite(450,250,30,30,imagemInimigoM);
+var inimigo52 = new Sprite(500,300,30,30,imagemInimigoM);
+var inimigo53 = new Sprite(550,150,30,30,imagemInimigoM);
+var inimigo54 = new Sprite(500,150,30,30,imagemInimigoM);
+var inimigo55 = new Sprite(550,100,30,30,imagemInimigoM);
 var inimigo6 = new Sprite(200,150,30,30,imagemInimigoM);
 var inimigo7 = new Sprite(400,550,30,30,imagemInimigoM);
 var inimigo8 = new Sprite(600,600,30,30,imagemInimigoM);

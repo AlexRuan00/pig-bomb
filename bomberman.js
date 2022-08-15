@@ -103,6 +103,11 @@ function loop (){
     }
 
 function atualiza(){
+    if(vidas <= 0){
+        location.reload();
+        alert("Game over");
+        
+    }
     //Condições para movimentar o personagem principal
     //Esquerda
     if(mvLeft && !mvRight && !mvDown && !mvUp){
@@ -193,23 +198,7 @@ function atualiza(){
         } 
     }
 
- 
-    //Colisão do Boss da fase 4
-   /*for(let i2 in rodrigoBoss){
-        let bos = rodrigoBoss[i2]
-        for(let i in arrayExplosoes) {
-            let expbos = arrayExplosoes[i]
-            colisao3(bos,expbos);
-            if(colidiu){
-                colidiu = false;
-                contadorodrigo++
-                if (contadorodrigo === 3){
-                    rodrigoBoss.slice(i2,0);
-                }
 
-            }
-        } 
-      }*/
     //Colisões do Boss da fase 4 com as paredes
     for(let i2 in rodrigoBoss){
         let bos = rodrigoBoss[i2]
@@ -259,6 +248,15 @@ function atualiza(){
     if(colidiu){
         if(tempo>500){
             vidas --;    
+            tempo = 0;
+        }
+        colidiu = false;
+    }
+
+    colisao2(bossRodrigo,boneco);
+    if(colidiu){
+        if(tempo>500){
+            vidas -=2;    
             tempo = 0;
         }
         colidiu = false;
@@ -377,6 +375,15 @@ function atualiza(){
             direcaoIni(inimigo10,yorX11);
             direcaoIni(inimigo12,yorX13);
         }    
+
+         //fase 4
+         if(fase === 4){
+
+            direcaoIni(yeti,yorX12);
+            direcaoIni(yeti2,yorX10);
+            direcaoIni(yeti3,yorX11);
+            direcaoIni(yeti4,yorX13);
+        } 
     }
 
     if(inimigos.length === 0 && portas.length<1){
@@ -392,7 +399,7 @@ function atualiza(){
         tempoBoss = 0; 
         BossX =  Math.floor(Math.random() * 4);  //Número aléatorio de 0 a 3, definindo a direção do inimigo;
     }
-    if(rodrigoBoss.length >= 0){    
+    if(rodrigoBoss.length >= 0 && fase === 4){    
         direcaoIni(bossRodrigo,BossX);
     }
 
@@ -414,6 +421,9 @@ function desenha() {
     }
      if(fase === 3){
         document.getElementById("jogo").style.backgroundImage = "url('img/pngcha03.png')";   
+    }
+    if(fase === 4){
+        document.getElementById("jogo").style.backgroundImage = "url('https://media.istockphoto.com/photos/texture-of-blue-paper-picture-id945663596?k=20&m=945663596&s=612x612&w=0&h=f6Zhyxp4rZAYn98qoPYnglSai6BefKLSKtgO576wQFo=')";   
     }
 
     
@@ -888,7 +898,7 @@ function mudarFase(){
         [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
         [1,0,0,0,3,8,3,3,0,0,0,0,0,0,1],
         [1,0,0,0,3,8,3,8,0,0,0,0,0,0,1],
-        [1,0,0,0,3,8,3,3,0,0,0,0,0,0,1],
+        [1,0,0,0,0,8,3,3,0,0,0,0,0,0,1],
         [1,0,0,0,8,8,3,8,3,0,0,0,0,0,1],
         [1,8,0,0,8,8,3,3,3,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,8,8,8,8,8,8,0,1],
@@ -910,25 +920,27 @@ function mudarFase(){
 
     if(fase === 4){
         mapa = [ 
-        [4,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
-        [1,0,0,0,0,8,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,8,0,8,0,0,0,0,0,0,1],
-        [1,0,0,0,0,8,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,8,8,0,8,0,0,0,0,0,0,1],
-        [1,8,0,0,8,8,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,8,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,8,8,0,8,8,8,0,8,8,8,0,0,0,1],
-        [1,8,8,0,8,8,0,8,8,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,8,0,0,8,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [7,2,2,2,2,2,2,2,2,2,2,2,2,2,6]         
+        [10,10,10,9,9,9,9,9,9,9,9,9,10,10,10],
+        [10,10,9,13,0,0,0,13,13,0,13,13,10,10,10],
+        [10,9,0,0,0,13,0,0,0,0,0,0,9,9,10],
+        [10,0,0,0,0,0,0,0,0,0,0,0,0,0,10],
+        [10,0,12,0,0,0,0,0,0,0,0,13,0,0,10],
+        [10,13,0,0,0,0,0,0,0,0,0,0,0,0,10],
+        [10,0,0,0,0,0,12,12,12,0,0,0,13,0,10],
+        [10,0,0,0,0,12,11,11,11,12,0,13,0,0,10],
+        [10,0,0,0,0,13,11,11,0,0,0,0,13,0,10],
+        [10,0,13,0,0,0,13,0,0,0,0,0,0,0,10],
+        [10,0,0,0,0,0,0,0,0,0,0,13,0,0,10],
+        [10,0,0,0,0,0,0,0,0,0,0,0,0,0,10],
+        [10,10,10,0,0,0,0,0,0,12,0,0,10,10,10],
+        [10,10,10,13,13,10,10,10,0,0,13,0,10,10,10],
+        [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9]         
         ]
+
         inimigosFases4++;
+
         if(inimigosFases4 === 1){
-            
+            inimigos.push(yeti, yeti2, yeti3, yeti4);
             rodrigoBoss.push(bossRodrigo);
         }
     }
@@ -1054,6 +1066,38 @@ function mudarFase(){
                     var parede8 = new Sprite(x, y, 50, 50, vidro)
                     paredesD.push(parede8);
             }
+               //Paredes Fase 4 - Gelo
+               if(bloco === 9 && fase === 4){
+                x = colunas*50
+                y = linhas*50
+                var parede9 = new Sprite(x, y, 50, 50, imagemGelo)
+                paredes.push(parede9);     
+            }
+            if(bloco === 10 && fase === 4){
+                x = colunas*50
+                y = linhas*50
+                var parede10 = new Sprite(x, y, 50, 50, imagemGelo2)
+                paredes.push(parede10);
+            }
+            if(bloco === 11 && fase === 4){
+                x = colunas*50
+                y = linhas*50
+                var parede11 = new Sprite(x, y, 50, 50, imagemLago)
+                paredes.push(parede11);
+            }
+            if(bloco === 12 && fase === 4){
+                x = colunas*50
+                y = linhas*50
+                var parede12 = new Sprite(x, y, 50, 50, imagemLago2)
+                paredes.push(parede12);
+            }
+              //Paredes Fase 4 - Quebraveis
+              if(bloco === 13 && fase === 4){
+                x = colunas*50
+                y = linhas*50
+                var parede13 = new Sprite(x, y, 50, 50, imagemQuebrag)
+                paredesD.push(parede13);     
+            }
 
         } 
             rodou = true;     //Para não ficar recriando sem parar, só recriando quando for false. 
@@ -1071,7 +1115,7 @@ var LEFT=37, UP=38, RIGHT=39, DOWN=40, SPACE=32, PP = 80;
 
 //movimento
 var mvLeft = mvUp = mvRight = mvDown = bomb = false;
-var velocidade = 1;
+var velocidade = 3;
 var yorX;
 var yorX1;
 var yorX2;
@@ -1110,9 +1154,9 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 2;                   //Fase inicial
+var fase = 4;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
-var vidas = 3;                  //Quantidade de vidas inciais
+var vidas = 1;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
 var porta;
 var inimigofases = 0;
@@ -1185,6 +1229,23 @@ vidro.src = "imgFase3/barril.png";
 var pedra = new Image ();
 pedra.src = "imgFase3/espedra.png";
 
+//imagens fase 4
+var imagemGelo = new Image();
+imagemGelo.src = "https://imgur.com/cIIPEIw.png";
+
+var imagemGelo2 = new Image();
+imagemGelo2.src = "https://imgur.com/LQ6Ob6s.png";
+
+var imagemLago = new Image();
+imagemLago.src = "https://imgur.com/obS6ftg.png";
+
+var imagemLago2 = new Image();
+imagemLago2.src = "https://imgur.com/Gyh7MAJ.png";
+
+var imagemQuebrag = new Image();
+imagemQuebrag.src = "https://imgur.com/VgLdIqj.png";
+
+
 //imagem da Bomba
 
 var imagemBomba = new Image();
@@ -1226,7 +1287,11 @@ imagemInimigoM.src ="spriteporco/mumiasheet.png";
 
 //imagem da porta, para passar de fase
 var imagemPorta = new Image();
-imagemPorta.src ="https://imgur.com/Ou9w4gH.png";
+imagemPorta.src ="img/porta.png";
+
+//imagem do inimigo fase 4(yeti)
+var imagemYeti = new Image();
+imagemYeti.src ="https://imgur.com/HZvcZT4.png";
 
 //Imagem Boss Rodrigo
 var imagemBossRodrigo = new Image();
@@ -1281,8 +1346,12 @@ var inimigo11 = new Sprite(100,600,30,30,imagemguerreiroA);
 var inimigo12 = new Sprite(600,600,30,30,imagemguerreiroV);
 
 //inigmigos fase 4
-var bossRodrigo = new Sprite(630,130,30,30,imagemBossRodrigo)
+var yeti = new Sprite(350,100,30,30,imagemYeti);
+var yeti2 = new Sprite(500,500,30,30,imagemYeti);
+var yeti3 = new Sprite(150,150,30,30,imagemYeti);
+var yeti4 = new Sprite(510,400,30,30,imagemYeti);
+var bossRodrigo = new Sprite(630,130,30,30,imagemBossRodrigo);
+
 
 
 loop(); //Chamando a função loop pela primeira vez para que ela se repita sozinha logo em seguida. 
-

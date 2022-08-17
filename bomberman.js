@@ -1283,9 +1283,9 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 3;                   //Fase inicial
+var fase = 4;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
-var vidas = 10;                  //Quantidade de vidas inciais
+var vidas = 5;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
 var porta;
 var inimigofases = 0;

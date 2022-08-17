@@ -102,6 +102,13 @@ function loop (){
         element.classList.remove("show-pause");
     }
 
+    function abreCreditos() {
+        var creditos = document.getElementById("creditos");
+        creditos.style.display = "block";
+        var rolagem = document.querySelector('.marquee');
+        rolagem.start();
+    }
+
 function atualiza(){
     if(vidas <= 0){
         location.reload();
@@ -504,6 +511,12 @@ function desenha() {
     }
     if(fase === 4){
         document.getElementById("jogo").style.backgroundImage = "url('https://media.istockphoto.com/photos/texture-of-blue-paper-picture-id945663596?k=20&m=945663596&s=612x612&w=0&h=f6Zhyxp4rZAYn98qoPYnglSai6BefKLSKtgO576wQFo=')";   
+    }
+    if(fase === 5){
+        abreCreditos();
+    }
+    if(fase !== 5){
+        document.querySelector('.marquee').stop();
     }
 
     
@@ -1031,8 +1044,8 @@ function mudarFase(){
         [10,0,12,0,0,0,0,0,0,0,0,13,0,0,10],
         [10,13,0,0,0,0,0,0,0,0,0,0,0,0,10],
         [10,0,0,0,0,0,12,12,12,0,0,0,13,0,10],
-        [10,0,0,0,0,12,11,11,11,12,0,13,0,0,10],
-        [10,0,0,0,0,13,11,11,0,0,0,0,13,0,10],
+        [10,13,0,0,0,12,11,11,11,12,0,13,0,0,10],
+        [10,13,13,0,0,13,11,11,0,0,0,0,13,0,10],
         [10,0,13,0,0,0,13,0,0,0,0,0,0,0,10],
         [10,0,0,0,0,0,0,0,0,0,0,13,0,0,10],
         [10,0,0,0,0,0,0,0,0,0,0,0,0,0,10],
@@ -1270,9 +1283,9 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 1;                   //Fase inicial
+var fase = 3;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
-var vidas = 5;                  //Quantidade de vidas inciais
+var vidas = 10;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
 var porta;
 var inimigofases = 0;

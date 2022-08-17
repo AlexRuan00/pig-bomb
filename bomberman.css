@@ -39,7 +39,7 @@ body {
 	position: absolute;
 	margin-bottom: 0px;
     color: LightPink;
-    font-family: ;
+
 }
 .fundo {
 	margin: 0;
@@ -72,7 +72,7 @@ body {
 	background: LightPink;
 	top: 80px;
 	border: solid;
-	boeder-radius: 0.5rem;
+	border-radius: 0.5rem;
 	border-color: DeepPink;
 }
 #coracao{
@@ -125,6 +125,31 @@ body {
     color: #00f;
     margin: auto;
 	width: auto;
+}
+
+/*creditos*/
+#creditos{
+    position: absolute;
+    display: none;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+.marquee{
+    height: 500px;
+    text-align: center;
+    color: white;
+    left: 50%;
+}
+
+.marquee table{
+    position: absolute;
+    width: 150px;
+    left: 50%;
+    margin-left: -75px;
+
 }
 
 

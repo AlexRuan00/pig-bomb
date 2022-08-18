@@ -90,7 +90,7 @@ function loop (){
     showPause()
     }
                    //Função para mudar de fase
-    console.log(pause);
+    console.log(contaClick);
 }
  function showPause() {
         var element = document.getElementById("pause");
@@ -496,6 +496,48 @@ function bombaChutar(){
      }
 }
 
+
+//SOBRE O MODAL
+// //função do modal
+// function apagaModal() {
+//     contaClick += 1;
+
+//     if(contaClick === 1){ // se clicar uma vez, troca a mensagem
+//         mensagem = "Pressione 'espaço' para soltar as bombas, mate todos os inimigos para poder passar de fase, Boa sorte! OINK OINK";
+//         document.getElementById("mensagem_porco").innerHTML = mensagem;
+//     }
+//     if(contaClick === 2){
+//         document.querySelector(".modal").style.display = "none" ;
+//         mensagem = "Oink oink, parabéns, você chegou a segunda fase e está beem quente, vamos acabar com essas múmias e passar";
+//         document.getElementById("mensagem_porco").innerHTML = mensagem;   
+//     }
+
+//     if(contaClick === 3){
+//         abreModal();
+//        mensagem = "Vamos correr para poder sair logo desse deserto";
+//         document.getElementById("mensagem_porco").innerHTML = mensagem; 
+//     }
+//     if(contaClick === 4){
+//         document.querySelector(".modal");
+//         modal1.style.display = 'none';
+//      }
+//     if(contaClick === 5){
+
+//     alteraImagem("imagem/rodrigoMonstro.png") // puxou a função com o parâmetro imagem e jogou a imagem achada no link
+// }
+
+// }
+
+// function abreModal(){
+//     document.querySelector(".modal").style.display = "block"
+// }
+// //funçao de alterar a imagem do modal
+
+// function alteraImagem (img) { //caminho da imagem 
+// document.querySelector("#modal_2").src = img
+
+// }
+
 //Função para desenhar tudo na tela.
 function desenha() {
 
@@ -519,7 +561,8 @@ function desenha() {
         document.querySelector('.marquee').stop();
     }
 
-    
+
+
     var x;
     var y;
     ctx.clearRect(0,0,tela.width,tela.height); //Limpando a tela.
@@ -1003,6 +1046,7 @@ function mudarFase(){
          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]         
          ]
          inimigofases++;
+        
 
         if(inimigofases === 1){
             inimigos.push(inimigo5,inimigo6,inimigo7,inimigo8,inimigo51,inimigo52,inimigo53,inimigo54,inimigo55);
@@ -1029,6 +1073,8 @@ function mudarFase(){
                     
         ]
         inimigosFases3++;
+        
+
         if(inimigosFases3 === 1){
             
             inimigos.push(inimigo9,inimigo10,inimigo11,inimigo12);
@@ -1055,6 +1101,7 @@ function mudarFase(){
         ]
 
         inimigosFases4++;
+        
 
         if(inimigosFases4 === 1){
             inimigos.push(yeti, yeti2, yeti3, yeti4);
@@ -1283,7 +1330,7 @@ var tE = 2;                     //Tamanho da explosão, inicialmente 3 blocos
 var numeroDeBombas = 1; 
 var colidiu = false;            
 var tempoInimigo = 0;           //Tempo para o inimigo se manter numa direção em um determinado tempo
-var fase = 4;                   //Fase inicial
+var fase = 1;                   //Fase inicial
 var mostrarVida = document.getElementById("vida");          //Contator de vida
 var vidas = 5;                  //Quantidade de vidas inciais
 var mostrarBombas = document.getElementById("bombas"); 
@@ -1291,6 +1338,12 @@ var porta;
 var inimigofases = 0;
 var tempoBoss = 0;
 var contadorodrigo = 0;
+
+//PARA O MODAL
+// var contaClick = 0;
+// var mensagem = 'OINK OINK, Bem vindo jogador, agora começa a nossa aventura juntos'; 
+//     document.getElementById("mensagem_porco").innerHTML = mensagem;
+
 
 
 //DEFININDO IMAGENS.
@@ -1489,7 +1542,6 @@ var yeti2 = new Sprite(500,500,30,30,imagemYeti);
 var yeti3 = new Sprite(150,150,30,30,imagemYeti);
 var yeti4 = new Sprite(510,400,30,30,imagemYeti);
 var bossRodrigo = new Sprite(630,130,30,30,imagemBossRodrigo);
-
 
 
 loop(); //Chamando a função loop pela primeira vez para que ela se repita sozinha logo em seguida. 
